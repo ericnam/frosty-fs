@@ -1,3 +1,7 @@
+import App from "app";
 import { render } from "react-dom";
 
-render(<div>hello</div>, document.getElementById("root"));
+// Styles
+import "./styles/tailwind.css";
+
+render(<App />, document.getElementById("root"));

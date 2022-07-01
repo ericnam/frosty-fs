@@ -1,0 +1,127 @@
+module.exports = {
+    content: [
+      "./dist/*.html",
+      "./public/*.html",
+      "./src/components/**/*.tsx",
+      // "./src/components/*.tsx",
+      // "./src/screens/**/**/**/*.tsx",
+      // "./src/screens/**/**/*.tsx",
+      "./src/screens/**/*.tsx",
+      // "./src/screens/*.tsx",
+      "./src/*.tsx",
+      "./helpers/**/*.tsx"
+    ],
+    theme: {
+      screens: {
+        xxs: "425px",
+        xs: "500px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
+      // colors: {
+      //   black: "#333"
+      // },
+  
+      fontFamily: {
+        sans: ["DINNextLTPro", "sans"],
+        serif: ["SourceSerifPro", "serif"],
+      },
+      container: {
+        center: true,
+        padding: "10px", //padding based on screen size is possible
+      },
+      extend: {
+        colors: {
+          black: "#333",
+          light: "#E0E0E0",
+          darkBlue: "#320093",
+          blueText: "#05053e"
+        },
+        transitionDuration: {
+          '0': '0ms',
+          '1': '1ms',
+          '25': '25ms',
+          '50': '50ms',
+        },
+        flex: {
+          2: "2 2 0%",
+        },
+        scale: {
+          25: "0.25",
+          35: "0.35",
+          130: "1.3",
+          140: "1.4",
+          160: "1.6",
+          170: "1.7",
+          180: "1.8",
+          200: "2",
+          220: "2.2",
+          250: "2.5",
+        },
+        width: {
+          112: "28rem",
+          128: "32rem",
+          144: "38rem",
+          150: "42rem",
+          166: "46rem",
+          182: "50rem",
+          198: "54rem",
+          214: "58rem",
+          230: "62rem",
+          246: "66rem",
+          262: "70rem",
+          278: "74rem",
+        },
+        height: {
+          112: "28rem",
+          128: "32rem",
+          144: "38rem",
+          150: "42rem",
+          166: "46rem",
+          182: "50rem",
+          198: "54rem",
+          214: "58rem",
+          230: "62rem",
+          246: "66rem",
+          262: "70rem",
+          278: "74rem",
+        },
+        translate: {
+          88: "22rem",
+          112: "28rem",
+          "-112": "-28rem",
+          128: "32rem",
+          "-128": "-32rem",
+          144: "38rem",
+          150: "42rem",
+          166: "46rem",
+          182: "50rem",
+          "-182": "-50rem",
+          198: "54rem",
+          214: "58rem",
+          230: "62rem",
+          246: "66rem",
+          "-246": "-66rem",
+          262: "70rem",
+          "-262": "-70rem",
+          278: "74rem",
+          "-278": "-74rem",
+          294: "78rem",
+          "-294": "-78rem",
+        },
+        dropShadow: {
+          lg: "0 8px 16px #BFBBEF",
+        },
+      },
+    },
+    // variants: {
+    //   extend: {
+    //     height: ["responsive", "hover", "focus"],
+    //     letterSpacing: ["responsive", "hover", "focus"],
+    //   },
+    // },
+    plugins: [],
+  };
