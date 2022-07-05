@@ -1,0 +1,25 @@
+{
+  "name": "react-file-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.tsx",
+  "scripts": {
+    "start": "nodemon ./src/test.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericnam/react-file-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericnam/react-file-system/issues"
+  },
+  "homepage": "https://github.com/ericnam/react-file-system#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  }
+}
