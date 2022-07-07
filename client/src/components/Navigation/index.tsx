@@ -1,9 +1,15 @@
 import useViewModel from "./viewModel";
 
 const NavigationComponent = (): JSX.Element => {
-  const { data, api } = useViewModel();
+  const { data } = useViewModel();
 
-  return <div onClick={api.getNavigationItems}>{data}</div>;
+  console.log(data.navigation);
+
+  if (!!data.navigation.loading) {
+    return <div>loading</div>;
+  } else {
+    return <div className={"bg-red"}>Navigation</div>;
+  }
 };
 
 export default NavigationComponent;

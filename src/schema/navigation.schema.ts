@@ -7,7 +7,7 @@ const navigationTypeDefs = gql`
   }
 
   extend type Query {
-    getNavigation: [Navigation]
+    navigation: [Navigation]
   }
 `;
 

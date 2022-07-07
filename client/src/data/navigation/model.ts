@@ -1,4 +1,6 @@
-import INavigationModel from "./interface";
+interface INavigationModel {
+  displayName: string;
+}
 
 class NavigationModel implements INavigationModel {
   displayName: string;

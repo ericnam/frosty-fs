@@ -1,15 +1,10 @@
-import { qGetNavigationItems } from "@data/Navigation/queries";
+import { useQuery } from "@apollo/client";
+import { GET_NAVIGATION } from "@data/navigation/query";
 
 const NavigationViewModel = () => {
-  async function getNavigationItems() {
-    return await qGetNavigationItems();
-  }
-
   return {
-    data: {},
-    api: {
-      getNavigationItems,
-    },
+    data: { navigation: useQuery(GET_NAVIGATION) },
+    api: {},
   };
 };
 

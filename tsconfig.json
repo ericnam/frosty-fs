@@ -1,15 +1,18 @@
 {
-    "compilerOptions": {                        
-      "target": "es6",                               
-      "module": "commonjs",                           
-      "outDir": "./dist",                             
-      "rootDir": "./src",                             
-      "strict": true,
-      "moduleResolution": "node",
-      "esModuleInterop": true,                       
-    },
-    "exclude":[
-      "./node_modules",
-      "./client"
-    ]
-  }
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@data/*": ["data/*"],
+      "@resolvers/*": ["resolvers/*"],
+      "@schema/*": ["schema/*"]
+    }
+  },
+  "exclude": ["./node_modules", "./client"]
+}

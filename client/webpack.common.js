@@ -51,5 +51,12 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     plugins: [new TsconfigPathsPlugin({ baseUrl: "./src" })],
+    fallback: {
+      https: false,
+      buffer: false,
+      crypto: false,
+      zlib: false,
+      os: false,
+    },
   },
 };

@@ -1,5 +1,10 @@
-const navigationResolver = {
-  getNavigation: () => {},
-};
+import navigationData from "@data/navigation.data";
 
-export default navigationResolver;
+export default {
+  Query: {
+    navigation: () => {
+      console.log(navigationData);
+      return navigationData;
+    },
+  },
+};

@@ -1,37 +1,12 @@
 import App from "app";
 import { render } from "react-dom";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
-// Styles
 import "./styles/tailwind.css";
-
-const client = new ApolloClient({
-  uri: "https://flyby-gateway.herokuapp.com/",
-  cache: new InMemoryCache(),
-});
-
-client
-  .query({
-    query: gql`
-      query GetLocations {
-        locations {
-          id
-          name
-          description
-          photo
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result));
+import apolloClient from "./apollo";
 
 render(
-  <ApolloProvider client={client}>
+  <ApolloProvider client={apolloClient}>
     <App />
   </ApolloProvider>,
   document.getElementById("root")

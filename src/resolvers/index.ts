@@ -1,7 +1,3 @@
 import navigationResolver from "./navigation.resolver";
 
-export default {
-  Query: {
-    ...navigationResolver,
-  },
-};
+export default [navigationResolver];
