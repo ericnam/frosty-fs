@@ -4,6 +4,7 @@ const GET_NAVIGATION = gql`
   query GetNavigation {
     navigation {
       title
+      dropDown
     }
   }
 `;

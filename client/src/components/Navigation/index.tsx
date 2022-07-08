@@ -1,15 +1,19 @@
 import useViewModel from "./viewModel";
+import MiniBar from "./components/minibar";
+import Navbar from "./components/navbar";
 
 const NavigationComponent = (): JSX.Element => {
   const { data } = useViewModel();
 
-  console.log(data.navigation);
-
-  if (!!data.navigation.loading) {
-    return <div>loading</div>;
-  } else {
-    return <div className={"bg-red"}>Navigation</div>;
-  }
+  return (
+    <div className={"flex flex-row"}>
+      <MiniBar />
+      <Navbar
+        loading={data.navigation.loading}
+        navigation={data.navigation.data}
+      />
+    </div>
+  );
 };
 
 export default NavigationComponent;

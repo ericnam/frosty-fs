@@ -1,10 +1,10 @@
-import HeaderComponent from "@components/Header";
+// import HeaderComponent from "@components/Header";
 import NavigationComponent from "@components/Navigation";
 
 const App = (): JSX.Element => {
   return (
     <div>
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
       <NavigationComponent />
     </div>
   );

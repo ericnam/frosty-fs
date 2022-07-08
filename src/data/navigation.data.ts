@@ -1,15 +1,28 @@
 const navigationData = [
   {
-    title: "Home",
+    title: "Dashboard",
     sortOrder: 1,
+    dropDown: false,
   },
   {
-    title: "Drive",
-    sortOrder: 2,
+    title: "My Files",
+    sortOrder: 3,
+    dropDown: true,
   },
   {
     title: "Favorites",
-    sortOrder: 3,
+    sortOrder: 2,
+    dropDown: false,
+  },
+  {
+    title: "Recents",
+    sortOrder: 2,
+    dropDown: false,
+  },
+  {
+    title: "Trash",
+    sortOrder: 2,
+    dropDown: false,
   },
 ];
 

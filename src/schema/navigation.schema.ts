@@ -4,6 +4,7 @@ const navigationTypeDefs = gql`
   type Navigation {
     title: String
     sortOrder: Int
+    dropDown: Boolean
   }
 
   extend type Query {

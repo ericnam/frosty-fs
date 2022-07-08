@@ -25,10 +25,10 @@ module.exports = {
       //   black: "#333"
       // },
   
-      fontFamily: {
-        sans: ["DINNextLTPro", "sans"],
-        serif: ["SourceSerifPro", "serif"],
-      },
+      // fontFamily: {
+      //   sans: ["DINNextLTPro", "sans"],
+      //   serif: ["SourceSerifPro", "serif"],
+      // },
       container: {
         center: true,
         padding: "10px", //padding based on screen size is possible
