@@ -14,16 +14,19 @@ interface INavigationModel {
   title: string;
   dropDown: boolean;
   icon: IconDefinition;
+  route: string;
 }
 
 class NavigationModel implements INavigationModel {
   title: string;
   dropDown: boolean;
   icon: IconDefinition;
+  route: string;
 
   constructor(gqlObject: any) {
     this.title = gqlObject.title;
     this.dropDown = gqlObject.dropDown;
+    this.route = gqlObject.route;
 
     switch (gqlObject.title) {
       case "Dashboard":

@@ -3,6 +3,7 @@ import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 interface NavbarParam {
   loading: boolean;
@@ -20,6 +21,7 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
                 title={navigation.title}
                 icon={navigation.icon}
                 dropDown={navigation.dropDown}
+                route={navigation.route}
               />
             );
           })
@@ -32,42 +34,48 @@ interface NavbarItemParam {
   title: string;
   icon: IconDefinition;
   dropDown?: boolean;
+  route?: string;
 }
 
 const NavbarItem = ({
   title,
   icon,
   dropDown,
+  route,
 }: NavbarItemParam): JSX.Element => {
   if (title === "Dashboard") {
     return (
-      <DashboardNavbarItem
-        title={title}
-        icon={icon}
-        storageUsed={5000000000}
-        storageAvailable={16106127360}
-      />
+      <Link to={`/${route}`}>
+        <DashboardNavbarItem
+          title={title}
+          icon={icon}
+          storageUsed={5000000000}
+          storageAvailable={16106127360}
+        />
+      </Link>
     );
   }
 
   return (
-    <div
-      className={
-        "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-      }
-    >
-      <span className={"mr-3"}>
-        <FontAwesomeIcon icon={icon as IconProp} />
-      </span>
-      {title}
-      {dropDown ? (
-        <span className={"float-right"}>
-          <FontAwesomeIcon icon={faAngleDown as IconProp} />
+    <Link to={`/${route}`}>
+      <div
+        className={
+          "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+        }
+      >
+        <span className={"mr-3"}>
+          <FontAwesomeIcon icon={icon as IconProp} />
         </span>
-      ) : (
-        false
-      )}
-    </div>
+        {title}
+        {dropDown ? (
+          <span className={"float-right"}>
+            <FontAwesomeIcon icon={faAngleDown as IconProp} />
+          </span>
+        ) : (
+          false
+        )}
+      </div>
+    </Link>
   );
 };
 

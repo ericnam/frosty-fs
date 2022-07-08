@@ -1,12 +1,16 @@
-// import HeaderComponent from "@components/Header";
 import NavigationComponent from "@components/Navigation";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = (): JSX.Element => {
   return (
-    <div>
-      {/* <HeaderComponent /> */}
-      <NavigationComponent />
-    </div>
+    <BrowserRouter>
+      <div className={"flex flex-row"}>
+        <NavigationComponent />
+        <Routes>
+          <Route path={"/"} element={<div>afd</div>}></Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 

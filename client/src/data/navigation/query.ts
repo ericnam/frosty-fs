@@ -5,6 +5,7 @@ const GET_NAVIGATION = gql`
     navigation {
       title
       dropDown
+      route
     }
   }
 `;

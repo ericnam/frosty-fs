@@ -5,6 +5,7 @@ const navigationTypeDefs = gql`
     title: String
     sortOrder: Int
     dropDown: Boolean
+    route: String
   }
 
   extend type Query {
