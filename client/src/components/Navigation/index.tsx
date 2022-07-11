@@ -11,6 +11,7 @@ const NavigationComponent = (): JSX.Element => {
       <Navbar
         loading={data.navigation.loading}
         navigation={data.navigation.data}
+        fileSystem={data.fileSystem.data}
       />
     </div>
   );

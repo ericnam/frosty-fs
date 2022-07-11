@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-express";
 
 import navigationSchema from "./navigation.schema";
+import fileSystemSchema from "./filesystem.schema";
 
 const baseTypeDefs = gql`
   type Query {
@@ -14,4 +15,6 @@ const baseTypeDefs = gql`
   }
 `;
 
-export default [baseTypeDefs, navigationSchema];
+export default [baseTypeDefs, navigationSchema
+  , fileSystemSchema
+];

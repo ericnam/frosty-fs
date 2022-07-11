@@ -4,13 +4,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { FileSystemModel } from "@data/filesystem/model";
 
 interface NavbarParam {
   loading: boolean;
   navigation: NavigationModel[] | undefined;
+  fileSystem: FileSystemModel[] | undefined;
 }
 
-const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
+const Navbar = ({
+  loading,
+  navigation,
+  fileSystem,
+}: NavbarParam): JSX.Element => {
+  console.log(fileSystem);
+
   return (
     <div className={"border-r w-72 h-screen"}>
       {!loading && !!navigation
@@ -22,6 +30,7 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
                 icon={navigation.icon}
                 dropDown={navigation.dropDown}
                 route={navigation.route}
+                fileSystem={fileSystem}
               />
             );
           })
@@ -35,6 +44,7 @@ interface NavbarItemParam {
   icon: IconDefinition;
   dropDown?: boolean;
   route?: string;
+  fileSystem?: FileSystemModel[];
 }
 
 const NavbarItem = ({
@@ -42,6 +52,7 @@ const NavbarItem = ({
   icon,
   dropDown,
   route,
+  fileSystem,
 }: NavbarItemParam): JSX.Element => {
   if (title === "Dashboard") {
     return (
@@ -57,25 +68,42 @@ const NavbarItem = ({
   }
 
   return (
-    <Link to={`/${route}`}>
-      <div
-        className={
-          "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-        }
-      >
-        <span className={"mr-3"}>
-          <FontAwesomeIcon icon={icon as IconProp} />
-        </span>
-        {title}
-        {dropDown ? (
-          <span className={"float-right"}>
-            <FontAwesomeIcon icon={faAngleDown as IconProp} />
+    <div>
+      <Link to={`/${route}`}>
+        <div
+          className={
+            "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+          }
+        >
+          <span className={"mr-3"}>
+            <FontAwesomeIcon icon={icon as IconProp} />
           </span>
-        ) : (
-          false
-        )}
-      </div>
-    </Link>
+          {title}
+          {dropDown ? (
+            <span className={"float-right"}>
+              <FontAwesomeIcon icon={faAngleDown as IconProp} />
+            </span>
+          ) : (
+            false
+          )}
+        </div>
+      </Link>
+      {title === "My Files" && !!fileSystem
+        ? fileSystem.map((fileSystem, i) => {
+            return (
+              <Link key={i} to={"my-files/" + fileSystem.title}>
+                <div
+                  className={
+                    "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+                  }
+                >
+                  {fileSystem.title}
+                </div>
+              </Link>
+            );
+          })
+        : null}
+    </div>
   );
 };
 

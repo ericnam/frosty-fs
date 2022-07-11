@@ -1,3 +1,4 @@
 import navigationResolver from "./navigation.resolver";
+import filesystemResolver from "./filesystem.resolver";
 
-export default [navigationResolver];
+export default [navigationResolver, , filesystemResolver];

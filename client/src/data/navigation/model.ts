@@ -6,7 +6,6 @@ import {
   faFolder,
   faStar,
   faTrashCan,
-  // faSun,
   faSnowflake,
 } from "@fortawesome/free-regular-svg-icons";
 

@@ -4,7 +4,7 @@ const fileSystemData = [
     title: "root",
     type: "directory",
     extension: null,
-    children: ["dir1"],
+    children: ["dir1", "dir2", "file1"],
     content: null,
   },
   {
@@ -24,10 +24,10 @@ const fileSystemData = [
     content: null,
   },
   {
-    _id: "dir2",
-    title: "Photos",
-    type: "directory",
-    extension: null,
+    _id: "file1",
+    title: "hello.txt",
+    type: "file",
+    extension: ".txt",
     children: [],
     content: null,
   },
