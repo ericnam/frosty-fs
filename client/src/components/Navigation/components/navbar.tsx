@@ -4,20 +4,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { FileSystemModel } from "@data/filesystem/model";
+// import { FileSystemModel } from "@data/filesystem/model";
+import DashboardNavbarItem from "./navbar.dashboard";
+import { useAppSelector } from "@hooks/redux.hooks";
+import { getDirectory } from "reducers/fileSystem.reducer";
+import FileSystemNavbarItem from "./navbar.fileSystem";
 
 interface NavbarParam {
   loading: boolean;
   navigation: NavigationModel[] | undefined;
-  fileSystem: FileSystemModel[] | undefined;
+  // fileSystem: FileSystemModel[] | undefined;
 }
 
 const Navbar = ({
   loading,
   navigation,
-  fileSystem,
-}: NavbarParam): JSX.Element => {
-  console.log(fileSystem);
+}: // fileSystem,
+NavbarParam): JSX.Element => {
+  const directory = useAppSelector(getDirectory);
+  // console.log(fileSystem);
+  console.log(directory);
 
   return (
     <div className={"border-r w-72 h-screen"}>
@@ -30,7 +36,7 @@ const Navbar = ({
                 icon={navigation.icon}
                 dropDown={navigation.dropDown}
                 route={navigation.route}
-                fileSystem={fileSystem}
+                fileSystem={directory}
               />
             );
           })
@@ -39,12 +45,12 @@ const Navbar = ({
   );
 };
 
-interface NavbarItemParam {
+export interface NavbarItemParam {
   title: string;
   icon: IconDefinition;
   dropDown?: boolean;
   route?: string;
-  fileSystem?: FileSystemModel[];
+  fileSystem?: any;
 }
 
 const NavbarItem = ({
@@ -54,100 +60,51 @@ const NavbarItem = ({
   route,
   fileSystem,
 }: NavbarItemParam): JSX.Element => {
-  if (title === "Dashboard") {
-    return (
-      <Link to={`/${route}`}>
-        <DashboardNavbarItem
+  switch (title) {
+    case "Dashboard":
+      return (
+        <Link to={`/${route}`}>
+          <DashboardNavbarItem
+            title={title}
+            icon={icon}
+            storageUsed={5000000000}
+            storageAvailable={16106127360}
+          />
+        </Link>
+      );
+    case "My Files":
+      return (
+        <FileSystemNavbarItem
           title={title}
           icon={icon}
-          storageUsed={5000000000}
-          storageAvailable={16106127360}
+          fileId={null}
+          directories={fileSystem}
+          tier={0}
         />
-      </Link>
-    );
-  }
-
-  return (
-    <div>
-      <Link to={`/${route}`}>
-        <div
-          className={
-            "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-          }
-        >
-          <span className={"mr-3"}>
-            <FontAwesomeIcon icon={icon as IconProp} />
-          </span>
-          {title}
-          {dropDown ? (
-            <span className={"float-right"}>
-              <FontAwesomeIcon icon={faAngleDown as IconProp} />
+      );
+    default:
+      return (
+        <Link to={`/${route}`}>
+          <div
+            className={
+              "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+            }
+          >
+            <span className={"mr-3"}>
+              <FontAwesomeIcon icon={icon as IconProp} />
             </span>
-          ) : (
-            false
-          )}
-        </div>
-      </Link>
-      {title === "My Files" && !!fileSystem
-        ? fileSystem.map((fileSystem, i) => {
-            return (
-              <Link key={i} to={"my-files/" + fileSystem.title}>
-                <div
-                  className={
-                    "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-                  }
-                >
-                  {fileSystem.title}
-                </div>
-              </Link>
-            );
-          })
-        : null}
-    </div>
-  );
-};
-
-interface DashboardNavbarItemParam extends NavbarItemParam {
-  storageUsed: number;
-  storageAvailable: number;
-}
-
-const DashboardNavbarItem = ({
-  title,
-  icon,
-  storageUsed,
-  storageAvailable,
-}: DashboardNavbarItemParam): JSX.Element => {
-  let storageUsedGb =
-    Math.round((storageUsed / (1024 * 1024 * 1024)) * 100) / 100;
-  let storageAvailableGb =
-    Math.round((storageAvailable / (1024 * 1024 * 1024)) * 100) / 100;
-
-  return (
-    <div
-      className={
-        "flex flex-col text-slate-600 border hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-      }
-    >
-      <div className={""}>
-        <span className={"mr-3"}>
-          <FontAwesomeIcon icon={icon as IconProp} />
-        </span>
-        {title}
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-500 mt-4">
-        <div
-          className="bg-violet-600 h-1 rounded-full"
-          style={{ width: "33%" }}
-        ></div>
-      </div>
-      <div className="flex justify-between mt-1">
-        <span className="text-xs text-slate-700 dark:text-white">
-          {storageUsedGb} GB / {storageAvailableGb} GB
-        </span>
-      </div>
-    </div>
-  );
+            {title}
+            {dropDown ? (
+              <span className={"float-right"}>
+                <FontAwesomeIcon icon={faAngleDown as IconProp} />
+              </span>
+            ) : (
+              false
+            )}
+          </div>
+        </Link>
+      );
+  }
 };
 
 export default Navbar;
