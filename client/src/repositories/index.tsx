@@ -11,8 +11,10 @@ function RepositoryHOF(
   dataType: string,
   repoParam?: RepositoryParam
 ) {
+  // Apollo Query
   const [gqlGet, gqlRes] = useLazyQuery(gqlQuery);
 
+  // API
   function get(variables?: any) {
     if (!!variables) {
       gqlGet({ variables: variables });
@@ -21,15 +23,17 @@ function RepositoryHOF(
     }
   }
 
-  if (!!repoParam && typeof repoParam.onLoad === "function")
+  // Callbacks
+  if (!!repoParam && typeof repoParam.onLoad === "function") {
     useEffect(() => {
       console.log(gqlRes);
       if (!gqlRes.loading && !!gqlRes.data && !!gqlRes.data[dataType]) {
         repoParam.onLoad(gqlRes.data[dataType]);
       }
     }, [gqlRes.data, gqlRes.loading]);
+  }
 
-  return { api: { get }, data: gqlRes };
+  return { api: { get }, data: gqlRes.data, loading: gqlRes.loading };
 }
 
 export { RepositoryHOF, RepositoryParam };
