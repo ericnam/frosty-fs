@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 const fileSystemTypeDefs = gql`
   type FileSystem {
-    _id: String
+    fileId: String
     title: String
     type: String
     extension: String
@@ -13,6 +13,7 @@ const fileSystemTypeDefs = gql`
   extend type Query {
     fileSystem: [FileSystem]
     directories(directoryId: String): [FileSystem]
+    directoryContent(directoryId: String): [FileSystem]
   }
 `;
 

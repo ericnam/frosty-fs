@@ -1,45 +1,84 @@
 import { NavigationModel } from "@data/navigation/model";
-import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
+import {
+  faSnowflake,
+  IconDefinition,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-// import { FileSystemModel } from "@data/filesystem/model";
 import DashboardNavbarItem from "./navbar.dashboard";
-import { useAppSelector } from "@hooks/redux.hooks";
-import { getDirectory } from "reducers/fileSystem.reducer";
 import FileSystemNavbarItem from "./navbar.fileSystem";
 
 interface NavbarParam {
   loading: boolean;
   navigation: NavigationModel[] | undefined;
-  // fileSystem: FileSystemModel[] | undefined;
 }
 
-const Navbar = ({
-  loading,
-  navigation,
-}: // fileSystem,
-NavbarParam): JSX.Element => {
-  const directory = useAppSelector(getDirectory);
-  // console.log(fileSystem);
-  console.log(directory);
-
+const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
   return (
-    <div className={"border-r w-72 h-screen"}>
+    <div className={"border-r w-96 h-screen"}>
+      <div className={`w-full mx-8 mt-8 mb-12 flex`}>
+        <span
+          className={`text-xl text-white w-8 h-8 bg-violet-500 flex justify-center items-center rounded-full mr-2`}
+        >
+          <FontAwesomeIcon icon={faSnowflake as IconProp} />
+        </span>
+        <span className={`text-xl font-semibold`}>Frosty FS</span>
+      </div>
+      {/* 
       {!loading && !!navigation
-        ? navigation!.map((navigation, i) => {
-            return (
-              <NavbarItem
-                key={i}
-                title={navigation.title}
-                icon={navigation.icon}
-                dropDown={navigation.dropDown}
-                route={navigation.route}
-                fileSystem={directory}
-              />
-            );
-          })
+        ? navigation!
+            .filter((e) => e.title === "Dashboard")
+            .map((navigation, i) => {
+              return (
+                <div className={`my-2`}>
+                  <NavbarItem
+                    key={i}
+                    title={navigation.title}
+                    icon={navigation.icon}
+                    dropDown={navigation.dropDown}
+                    route={navigation.route}
+                  />
+                </div>
+              );
+            })
+        : false} */}
+      {/* <div className="my-8 border-t w-full h-1"></div> */}
+      {!loading && !!navigation
+        ? navigation!
+            .filter((e) => e.title === "My Files")
+            .map((navigation, i) => {
+              return (
+                <div className={`my-2`}>
+                  <NavbarItem
+                    key={i}
+                    title={navigation.title}
+                    icon={navigation.icon}
+                    dropDown={navigation.dropDown}
+                    route={navigation.route}
+                  />
+                </div>
+              );
+            })
+        : false}
+      <div className="my-6 border-t w-full h-1"></div>
+      {!loading && !!navigation
+        ? navigation!
+            .filter((e) => e.title !== "My Files" && e.title !== "Dashboard")
+            .map((navigation, i) => {
+              return (
+                <div>
+                  <NavbarItem
+                    key={i}
+                    title={navigation.title}
+                    icon={navigation.icon}
+                    dropDown={navigation.dropDown}
+                    route={navigation.route}
+                  />
+                </div>
+              );
+            })
         : false}
     </div>
   );
@@ -58,8 +97,8 @@ const NavbarItem = ({
   icon,
   dropDown,
   route,
-  fileSystem,
 }: NavbarItemParam): JSX.Element => {
+  let iconColor = "";
   switch (title) {
     case "Dashboard":
       return (
@@ -78,19 +117,23 @@ const NavbarItem = ({
           title={title}
           icon={icon}
           fileId={null}
-          directories={fileSystem}
           tier={0}
+          tierDisplay={{}}
         />
       );
+    // case "Favorites":
+    //   iconColor = "text-yellow-500";
+    // case "Recents":
+    //   iconColor = "text-teal-500";
     default:
       return (
         <Link to={`/${route}`}>
           <div
             className={
-              "text-slate-600 hover:bg-violet-50 m-2 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+              "text-slate-600 hover:bg-violet-50 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
             }
           >
-            <span className={"mr-3"}>
+            <span className={`mr-3 ${iconColor}`}>
               <FontAwesomeIcon icon={icon as IconProp} />
             </span>
             {title}

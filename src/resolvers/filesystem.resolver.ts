@@ -7,7 +7,7 @@ export default {
     },
     directories: (parent: any, args: any, context: any, info: any) => {
       let directory = fileSystemData.find(
-        (file) => file._id === args.directoryId
+        (file) => file.fileId === args.directoryId
       );
 
       if (!!directory) {
@@ -15,7 +15,22 @@ export default {
 
         return fileSystemData.filter(
           (file) =>
-            file.type === "directory" && children.indexOf(file._id) >= 0
+            file.type === "directory" && children.indexOf(file.fileId) >= 0
+        );
+      } else {
+        return null;
+      }
+    },
+    directoryContent: (parent: any, args: any, context: any, info: any) => {
+      let directory = fileSystemData.find(
+        (file) => file.fileId === args.directoryId
+      );
+
+      if (!!directory) {
+        let children: string[] = directory.children;
+
+        return fileSystemData.filter(
+          (file) => children.indexOf(file.fileId) >= 0
         );
       } else {
         return null;

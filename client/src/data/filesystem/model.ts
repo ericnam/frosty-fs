@@ -4,6 +4,7 @@ interface IFileSystemModel {
   extension: string;
   children: string[];
   content: string;
+  active: boolean;
 }
 
 class FileSystemModel implements IFileSystemModel {
@@ -12,6 +13,7 @@ class FileSystemModel implements IFileSystemModel {
   extension: string;
   children: string[];
   content: string;
+  active: boolean;
 
   constructor(gqlObject: any) {
     this.title = gqlObject.title;
@@ -19,6 +21,8 @@ class FileSystemModel implements IFileSystemModel {
     this.extension = gqlObject.extension;
     this.children = gqlObject.children;
     this.content = gqlObject.content;
+    
+    this.active = false;
   }
 }
 

@@ -1,16 +1,32 @@
-import { useLazyQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
-import { GET_NAVIGATION } from "@data/navigation/query";
-import { GET_DIRECTORIES } from "@data/filesystem/query";
 import { NavigationModel } from "@data/navigation/model";
-import { FileSystemModel } from "@data/filesystem/model";
+// import { FileSystemModel } from "@data/filesystem/model";
+import NavigationRepository from "repositories/navigation.repository";
+// import FilesRepository from "repositories/files.repository";
 
 const NavigationViewModel = () => {
-  const [getNavigation, navigation] = useLazyQuery(GET_NAVIGATION);
-  const [getFileSystem, fileSystem] = useLazyQuery(GET_DIRECTORIES);
-
   const [navigationData, setNavigationData] = useState<NavigationModel[]>();
-  const [fileSystemData, setFileSystemData] = useState<FileSystemModel[]>();
+  // const [fileSystemData, setFileSystemData] = useState<FileSystemModel[]>();
+
+  // Gql queries
+  const qGetNavigation = NavigationRepository.GetNavigation({
+    onLoad: (data: any) => {
+      setNavigationData(
+        data.map((gqlObj: any) => {
+          return new NavigationModel(gqlObj);
+        })
+      );
+    },
+  });
+  // const qGetDirectories = FilesRepository.GetDirectories({
+  //   onLoad: (data: any) => {
+  //     setFileSystemData(
+  //       data.map((gqlObj: any) => {
+  //         return new FileSystemModel(gqlObj);
+  //       })
+  //     );
+  //   },
+  // });
 
   /**
    * API
@@ -21,40 +37,14 @@ const NavigationViewModel = () => {
 
   // Load Initial Data
   useEffect(() => {
-    getNavigation();
-    getFileSystem({ variables: { directoryId: "root" } });
+    qGetNavigation.api.get();
+    // qGetDirectories.api.get({ directoryId: "root" });
   }, []);
-
-  // Navigation Data
-  useEffect(() => {
-    if (!!!navigation.loading) {
-      if (!!navigation.data && !!navigation.data.navigation) {
-        setNavigationData(
-          navigation.data.navigation.map((gqlObj: any) => {
-            return new NavigationModel(gqlObj);
-          })
-        );
-      }
-    }
-  }, [navigation.loading]);
-
-  // File System Data
-  useEffect(() => {
-    if (!!!fileSystem.loading) {
-      if (!!fileSystem.data && !!fileSystem.data.directories) {
-        setFileSystemData(
-          fileSystem.data.directories.map((gqlObj: any) => {
-            return new FileSystemModel(gqlObj);
-          })
-        );
-      }
-    }
-  }, [fileSystem.loading]);
 
   return {
     data: {
-      navigation: { ...navigation, data: navigationData },
-      fileSystem: { ...fileSystem, data: fileSystemData },
+      navigation: { loading: false, data: navigationData },
+      // fileSystem: { loading: false, data: fileSystemData },
     },
     api: { getDirectory },
   };

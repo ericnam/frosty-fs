@@ -1,5 +1,5 @@
 import useViewModel from "./viewModel";
-import MiniBar from "./components/minibar";
+// import MiniBar from "./components/minibar";
 import Navbar from "./components/navbar";
 
 const NavigationComponent = (): JSX.Element => {
@@ -7,11 +7,10 @@ const NavigationComponent = (): JSX.Element => {
 
   return (
     <div className={"flex flex-row"}>
-      <MiniBar />
+      {/* <MiniBar /> */}
       <Navbar
         loading={data.navigation.loading}
         navigation={data.navigation.data}
-        fileSystem={data.fileSystem.data}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-core";
 
-const GET_NAVIGATION = gql`
+export const GET_NAVIGATION_TYPE = "navigation";
+export const GET_NAVIGATION = gql`
   query GetNavigation {
     navigation {
       title
@@ -9,5 +10,3 @@ const GET_NAVIGATION = gql`
     }
   }
 `;
-
-export { GET_NAVIGATION };
