@@ -1,4 +1,6 @@
-interface IFileSystemModel {
+export interface IFileModel {
+  fileId: string;
+  parentId: string;
   title: string;
   type: string;
   extension: string;
@@ -7,7 +9,9 @@ interface IFileSystemModel {
   active: boolean;
 }
 
-class FileSystemModel implements IFileSystemModel {
+class FileModel implements IFileModel {
+  fileId: string;
+  parentId: string;
   title: string;
   type: string;
   extension: string;
@@ -16,14 +20,16 @@ class FileSystemModel implements IFileSystemModel {
   active: boolean;
 
   constructor(gqlObject: any) {
+    this.fileId = gqlObject.filedId;
+    this.parentId = gqlObject.parentId;
     this.title = gqlObject.title;
     this.type = gqlObject.type;
     this.extension = gqlObject.extension;
     this.children = gqlObject.children;
     this.content = gqlObject.content;
-    
+
     this.active = false;
   }
 }
 
-export { FileSystemModel };
+export { FileModel };

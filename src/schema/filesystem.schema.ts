@@ -8,13 +8,16 @@ const fileSystemTypeDefs = gql`
     extension: String
     children: [String]
     content: String
+    parentId: String
   }
 
   extend type Query {
     fileSystem: [FileSystem]
-    directories(directoryId: String): [FileSystem]
+    files(ids: [String]): [FileSystem]
+    subDirectories(directoryId: String): [FileSystem]
     directoryContent(directoryId: String): [FileSystem]
   }
 `;
 
 export default fileSystemTypeDefs;
+  

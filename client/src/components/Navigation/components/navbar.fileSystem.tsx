@@ -5,25 +5,19 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import {
-  addDirectory,
-  getDirectory,
-  setCurrentDirectory,
-} from "reducers/fileSystem.reducer";
+  setSubDirectory,
+  getSubDirectories,
+  setCurrentFile,
+  setFiles,
+  IReduxSubDirectories,
+} from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
-
-//pl-6
-//pl-12
-//pl-18
-//pl-24
-//pl-30
-//pl-36
-//pl-42
-
-//pl-4
-//pl-8
-//pl-12
-//pl-16
-//pl-20
+import { IFileModel } from "@data/files/model";
+import {
+  ISetCurrentFilePayload,
+  ISetFilesPayload,
+  ISetSubDirectoryPayload,
+} from "reducers/files.reducer";
 
 const FileSystemNavbarItem = ({
   fileId,
@@ -33,25 +27,32 @@ const FileSystemNavbarItem = ({
   parentActive,
   last,
   tierDisplay,
-}: // parentLast,
-// lastByTier,
-any) => {
+}: any) => {
   // Redux State
   const dispatch = useAppDispatch();
-  const directory: any = useAppSelector(getDirectory);
+  const subDirectories = useAppSelector(
+    getSubDirectories
+  ) as IReduxSubDirectories;
 
   // Component State
-  const [active, setActive] = useState(false);
-  const [subDir, setSubDir] = useState(directory[!!fileId ? fileId : "root"]);
+  const [active, setActive] = useState<boolean>(false);
+  const [subDir, setSubDir] = useState<IFileModel[]>(
+    subDirectories[!!fileId ? fileId : "root"]
+  );
 
   // Gql Queries
+  const qGetFiles = FilesRepository.GetFiles({
+    onLoad: (data: IFileModel[]) => {
+      dispatch(setFiles({ files: data } as ISetFilesPayload));
+    },
+  });
   const qGetDirectories = FilesRepository.GetDirectories({
-    onLoad: (data: any) => {
+    onLoad: (data: IFileModel[]) => {
       dispatch(
-        addDirectory({
-          directoryId: fileId,
+        setSubDirectory({
+          fileId: fileId,
           subDirectories: data,
-        })
+        } as ISetSubDirectoryPayload)
       );
     },
   });
@@ -63,18 +64,22 @@ any) => {
   }, [parentActive]);
 
   useEffect(() => {
-    setSubDir(directory[!!fileId ? fileId : "root"]);
-  }, [directory]);
+    if (subDirectories.hasOwnProperty(fileId)) {
+      qGetFiles.api.get({ ids: subDirectories[fileId].map((f) => f.fileId) });
+    }
+    setSubDir(subDirectories[!!fileId ? fileId : "root"]);
+  }, [subDirectories]);
 
   // Onclick handlers
-  function setSelectedDirectory(fileId: any) {
-    dispatch(setCurrentDirectory(fileId));
+  function setSelectedDirectory(fileId: string) {
+    qGetFiles.api.get({ ids: [fileId] });
+    dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
   }
 
   return (
     <div>
       <div
-        className={`text-slate-600 hover:bg-violet-50 mx-6 rounded-lg font-sans text-sm`}
+        className={`text-slate-600 hover:bg-violet-100 mx-6 rounded-lg font-sans text-sm`}
       >
         <div className={`relative`}>
           <FileSystemTreeLine
@@ -87,7 +92,7 @@ any) => {
               className={`flex-1 cursor-pointer mx-3 my-2 ${
                 tier > 0 ? "pl-" + tier * 4 : ""
               }`}
-              to={`/my-files/${!!fileId ? fileId : ""}`}
+              to={`/my-files/${fileId !== "root" ? fileId : ""}`}
               onClick={() => setSelectedDirectory(fileId)}
             >
               <span className={"mr-3"}>
@@ -139,7 +144,10 @@ const FileSystemTreeLine = ({ tier, tierDisplay, last }: any): JSX.Element => {
     if (tierDisplay.hasOwnProperty(i - 1) && tierDisplay[i - 1]) {
       treeLines.push(
         <div
-          className={`absolute w-2 h-full pl-${(i - 1) * 4} border-r `}
+          key={i + "_1"}
+          className={`absolute w-2 h-full pl-${
+            (i - 1) * 4
+          } border-r-2 border-violet-300`}
         ></div>
       );
     }
@@ -147,14 +155,20 @@ const FileSystemTreeLine = ({ tier, tierDisplay, last }: any): JSX.Element => {
     if (i === tier) {
       treeLines.push(
         <div
-          className={`absolute w-2 ${last ? "h-1/2" : "h-full"} border-r pl-${
-            i * 4
-          }`}
+          key={i + "_2"}
+          className={`absolute w-2 ${
+            last ? "h-1/2" : "h-full"
+          } border-r-2 border-violet-300 pl-${i * 4}`}
         ></div>
       );
 
       treeLines.push(
-        <div className={`absolute h-1/2 w-2 border-b ml-${i * 4}`}></div>
+        <div
+          key={i + "_3"}
+          className={`absolute h-1/2 w-2 border-b-2 border-violet-300 ml-${
+            i * 4
+          }`}
+        ></div>
       );
     }
   }
@@ -162,3 +176,22 @@ const FileSystemTreeLine = ({ tier, tierDisplay, last }: any): JSX.Element => {
 };
 
 export default FileSystemNavbarItem;
+
+//pl-6
+//pl-12
+//pl-18
+//pl-24
+//pl-30
+//pl-36
+//pl-42
+
+//pl-4
+//pl-8
+//pl-12
+//pl-16
+//pl-20
+//ml-4
+//ml-8
+//ml-12
+//ml-16
+//ml-20

@@ -1,20 +1,50 @@
-import { useAppSelector } from "@hooks/redux.hooks";
+import { IFileModel } from "@data/files/model";
+import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import { useEffect } from "react";
-import { getCurrentDirectory } from "reducers/fileSystem.reducer";
+import { ISetFilesPayload } from "reducers/files.reducer";
+import {
+  getCurrentDirectoryId,
+  // setFile,
+  // getCurrentFisle,
+  getFilePath,
+  // getFiles,
+  setFiles,
+} from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 
 const DirectoryView = (): JSX.Element => {
-  const currentDirectory = useAppSelector(getCurrentDirectory);
+  const dispatch = useAppDispatch();
+
+  const currentDirectoryId = useAppSelector(getCurrentDirectoryId);
+  // const files = useAppSelector(getFiles);
+  // const currentFile = useAppSelector(getCurrentFile);
+  const filePath = useAppSelector(getFilePath);
+
+  // const [directory, setDirectory] = useState(null);
+
+  const qGetFiles = FilesRepository.GetFiles({
+    onLoad: (data: IFileModel[]) => {
+      dispatch(setFiles({ files: data } as ISetFilesPayload));
+    },
+  });
   const qGetDirectoryContent = FilesRepository.GetDirectoryContent();
 
   useEffect(() => {
-    qGetDirectoryContent.api.get({ directoryId: currentDirectory });
-  }, [currentDirectory]);
+    qGetFiles.api.get({ ids: [currentDirectoryId] });
+    qGetDirectoryContent.api.get({ directoryId: currentDirectoryId });
+  }, [currentDirectoryId]);
+
+  console.log(qGetDirectoryContent.data);
+
+  // useEffect(() => {
+  //   setDirectory(currentFile);
+  // }, [currentFile]);
 
   return (
-    <div className={`w-full h-100 bg-gray-50`}>
+    <div className={`w-full h-100`}>
       <div className={`m-10`}>
-        <h1 className={`text-2xl font-semibold`}>{currentDirectory}</h1>
+        <div>{filePath}</div>
+        <h1 className={`text-2xl font-semibold`}>{currentDirectoryId}</h1>
       </div>
     </div>
   );

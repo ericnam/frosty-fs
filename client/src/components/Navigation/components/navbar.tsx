@@ -17,15 +17,17 @@ interface NavbarParam {
 
 const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
   return (
-    <div className={"border-r w-96 h-screen"}>
-      <div className={`w-full mx-8 mt-8 mb-12 flex`}>
-        <span
-          className={`text-xl text-white w-8 h-8 bg-violet-500 flex justify-center items-center rounded-full mr-2`}
-        >
-          <FontAwesomeIcon icon={faSnowflake as IconProp} />
-        </span>
-        <span className={`text-xl font-semibold`}>Frosty FS</span>
-      </div>
+    <div className={"w-96 h-screen bg-gray-50"}>
+      <Link to={"/"}>
+        <div className={`mx-8 mt-8 mb-12 flex`}>
+          <span
+            className={`text-xl text-white w-8 h-8 bg-violet-500 flex justify-center items-center rounded-full mr-2`}
+          >
+            <FontAwesomeIcon icon={faSnowflake as IconProp} />
+          </span>
+          <span className={`text-xl font-semibold`}>Frosty FS</span>
+        </div>
+      </Link>
       {/* 
       {!loading && !!navigation
         ? navigation!
@@ -50,7 +52,7 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
             .filter((e) => e.title === "My Files")
             .map((navigation, i) => {
               return (
-                <div className={`my-2`}>
+                <div key={i} className={`my-2`}>
                   <NavbarItem
                     key={i}
                     title={navigation.title}
@@ -68,7 +70,7 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
             .filter((e) => e.title !== "My Files" && e.title !== "Dashboard")
             .map((navigation, i) => {
               return (
-                <div>
+                <div key={i}>
                   <NavbarItem
                     key={i}
                     title={navigation.title}
@@ -116,7 +118,7 @@ const NavbarItem = ({
         <FileSystemNavbarItem
           title={title}
           icon={icon}
-          fileId={null}
+          fileId={"root"}
           tier={0}
           tierDisplay={{}}
         />
@@ -130,7 +132,7 @@ const NavbarItem = ({
         <Link to={`/${route}`}>
           <div
             className={
-              "text-slate-600 hover:bg-violet-50 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+              "text-slate-600 hover:bg-violet-100 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
             }
           >
             <span className={`mr-3 ${iconColor}`}>

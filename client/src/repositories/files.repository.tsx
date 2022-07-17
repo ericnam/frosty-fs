@@ -3,7 +3,9 @@ import {
   GET_DIRECTORIES_TYPE,
   GET_DIRECTORY_CONTENT,
   GET_DIRECTORY_CONTENT_TYPE,
-} from "@data/filesystem/query";
+  GET_FILES,
+  GET_FILES_TYPE,
+} from "@data/files/query";
 
 import { RepositoryParam, RepositoryHOF } from "repositories";
 
@@ -18,6 +20,10 @@ class FilesRepository {
       GET_DIRECTORY_CONTENT_TYPE,
       param
     );
+  }
+
+  static GetFiles(param?: RepositoryParam) {
+    return RepositoryHOF(GET_FILES, GET_FILES_TYPE, param);
   }
 }
 

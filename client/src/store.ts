@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import fileSystemReducer from "reducers/fileSystem.reducer";
+import filesReducer from "reducers/files.slice";
 
 export const store = configureStore({
   reducer: {
-    fileSystem: fileSystemReducer,
+    files: filesReducer,
   },
 });
 

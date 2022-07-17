@@ -1,12 +1,13 @@
 import { gql } from "apollo-server-core";
 
-export const GET_DIRECTORIES_TYPE = "directories";
+export const GET_DIRECTORIES_TYPE = "subDirectories";
 export const GET_DIRECTORIES = gql`
-  query GetDirectories($directoryId: String) {
+  query GetSubDirectories($directoryId: String) {
     ${GET_DIRECTORIES_TYPE}(directoryId: $directoryId) {
       fileId
       title
       type
+      parentId
     }
   }
 `;
@@ -22,12 +23,14 @@ export const GET_DIRECTORY_CONTENT = gql`
   }
 `;
 
-const GET_FILESYSTEM = gql`
-  query GetFileSystem {
-    fileSystem {
+export const GET_FILES_TYPE = "files";
+export const GET_FILES = gql`
+  query GetFiles($ids: [String]) {
+    ${GET_FILES_TYPE}(ids: $ids) {
+      fileId
       title
+      type
+      parentId
     }
   }
 `;
-
-export { GET_FILESYSTEM };

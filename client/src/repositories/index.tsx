@@ -26,7 +26,6 @@ function RepositoryHOF(
   // Callbacks
   if (!!repoParam && typeof repoParam.onLoad === "function") {
     useEffect(() => {
-      console.log(gqlRes);
       if (!gqlRes.loading && !!gqlRes.data && !!gqlRes.data[dataType]) {
         repoParam.onLoad(gqlRes.data[dataType]);
       }

@@ -5,7 +5,12 @@ export default {
     fileSystem: () => {
       return fileSystemData;
     },
-    directories: (parent: any, args: any, context: any, info: any) => {
+    files: (parent: any, args: any, context: any, info: any) => {
+      return fileSystemData.filter(
+        (fs) => args.ids.indexOf(fs.fileId) >= 0
+      );
+    },
+    subDirectories: (parent: any, args: any, context: any, info: any) => {
       let directory = fileSystemData.find(
         (file) => file.fileId === args.directoryId
       );

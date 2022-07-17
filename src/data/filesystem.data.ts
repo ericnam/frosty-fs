@@ -6,6 +6,7 @@ const fileSystemData = [
     extension: null,
     children: ["dir1", "dir2", "file1"],
     content: null,
+    parentId: null,
   },
   {
     fileId: "dir1",
@@ -14,6 +15,7 @@ const fileSystemData = [
     extension: null,
     children: ["dir3", "dir5"],
     content: null,
+    parentId: "root",
   },
   {
     fileId: "dir2",
@@ -22,6 +24,7 @@ const fileSystemData = [
     extension: null,
     children: ["dir4"],
     content: null,
+    parentId: "root",
   },
   {
     fileId: "file1",
@@ -30,6 +33,7 @@ const fileSystemData = [
     extension: ".txt",
     children: [],
     content: null,
+    parentId: "root",
   },
   {
     fileId: "dir3",
@@ -38,6 +42,7 @@ const fileSystemData = [
     extension: null,
     children: ["dir6"],
     content: null,
+    parentId: "dir1",
   },
   {
     fileId: "dir4",
@@ -46,6 +51,7 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    parentId: "dir2",
   },
   {
     fileId: "dir5",
@@ -54,6 +60,7 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    parentId: "dir1",
   },
   {
     fileId: "dir6",
@@ -62,6 +69,7 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    parentId: "dir3",
   },
 ];
 
