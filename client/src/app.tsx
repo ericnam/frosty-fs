@@ -32,15 +32,14 @@ const App = (): JSX.Element => {
   return (
     <div className={"flex flex-row"}>
       <NavigationComponent />
-      <div className={`flex flex-col relative w-full`}>
-        <div className={`w-full h-16 items-center flex px-4`}>
+      <div className={`flex flex-col relative w-full m-8 mt-0`}>
+        <div className={`w-full h-16 items-center flex`}>
           <SearchBar />
         </div>
         <div className={`flex-1`}>
           <Routes>
             <Route path={"/my-files"} element={<DirectoryView />}></Route>
             <Route path={"/my-files/:id"} element={<DirectoryView />}></Route>
-            {/* <Route path={"/"}></Route> */}
           </Routes>
         </div>
       </div>

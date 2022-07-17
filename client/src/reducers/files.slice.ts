@@ -29,6 +29,9 @@ export const getCurrentDirectoryId = (state: RootState) =>
   state.files.currentFileId;
 export const getCurrentFile = (state: RootState) =>
   state.files.files[state.files.currentFileId];
-export const getFilePath = (state: RootState) => state.files.filePath;
+export const getFilePath = (state: RootState) =>
+  state.files.filePath.map((fp) => {
+    return { fileId: fp, title: state.files.files[fp].title };
+  });
 
 export default filesSlice.reducer;
