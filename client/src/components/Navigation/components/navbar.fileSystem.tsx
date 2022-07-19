@@ -92,7 +92,7 @@ const FileSystemNavbarItem = ({
               className={`flex-1 cursor-pointer mx-3 my-2 ${
                 tier > 0 ? "pl-" + tier * 4 : ""
               }`}
-              to={`/my-files/${fileId !== "root" ? fileId : ""}`}
+              to={`/my-files${fileId !== "root" ? "/" + fileId : ""}`}
               onClick={() => setSelectedDirectory(fileId)}
             >
               <span className={"mr-3"}>

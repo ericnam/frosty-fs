@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import "./styles/tailwind.css";
+import "./styles/grid.mermaid.css";
 import apolloClient from "./apollo";
 import { store } from "./store";
 
