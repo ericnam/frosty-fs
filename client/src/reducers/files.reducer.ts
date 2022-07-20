@@ -29,6 +29,7 @@ function setCurrentFile(state: any, action: any) {
     if (filePathArr[filePathArr.length - 1] !== fileId) {
       let newFilePathArr = [];
       let file = current(state).files[fileId];
+
       let parentId = file.parentId;
       newFilePathArr.unshift(fileId);
 

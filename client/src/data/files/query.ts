@@ -19,6 +19,7 @@ export const GET_DIRECTORY_CONTENT = gql`
       fileId
       title
       type
+      parentId
     }
   }
 `;
