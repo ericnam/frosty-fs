@@ -22,15 +22,29 @@ module.exports = merge(common, {
       },
       {
         test: /\.css$/i,
-        include: path.resolve(__dirname, "src"),
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/ag-grid-community/styles"),
+        ],
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
+      // {
+      //   test: /\.css$/i,
+      //   include: path.resolve(
+      //     __dirname,
+      //     "node_modules/ag-grid-community/styles"
+      //   ),
+      //   use: ["style-loader", "css-loader"],
+      // },
     ],
   },
+  // resolve: {
+  //   extensions: ["", ".js", ".tsx", ".jsx", ".ts", ".css"],
+  // },
   devtool: "eval-source-map",
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.join(__dirname, "public/index.html")
-    })
+      template: path.join(__dirname, "public/index.html"),
+    }),
   ],
 });

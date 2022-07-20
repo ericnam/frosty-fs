@@ -42,15 +42,13 @@ const DirectoryView = (): JSX.Element => {
   }, [currentDirectoryId]);
 
   return (
-    <div className={`w-full h-100 pt-4`}>
-      <div className={`flex flex-col`}>
-        <FilePath filePath={filePath as IFileModel[]} />
-        <DirectoryGrid
-          currentDirectoryId={currentDirectoryId}
-          // currentDirectoryId={currentDirectoryId}
-          // directoryContent={qGetDirectoryContent.data}
-        />
-      </div>
+    <div className={`w-full h-full flex flex-col`}>
+      <FilePath filePath={filePath as IFileModel[]} />
+      <DirectoryGrid
+        currentDirectoryId={currentDirectoryId}
+        // currentDirectoryId={currentDirectoryId}
+        // directoryContent={qGetDirectoryContent.data}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { IFileModel } from "@data/files/model";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faFile, faFolder, faStar } from "@fortawesome/free-regular-svg-icons";
+import { faFolder } from "@fortawesome/free-regular-svg-icons";
 import {
   faAngleRight,
   faEllipsisVertical,
@@ -18,7 +18,7 @@ const FilePath = ({ filePath }: FilePathProps): JSX.Element => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className={`flex flex-row items-center mt-4`}>
+    <div className={`flex flex-row items-center mb-3`}>
       <Link
         to="/my-files"
         onClick={() => {
