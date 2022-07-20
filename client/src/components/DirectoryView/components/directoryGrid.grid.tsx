@@ -45,8 +45,6 @@ export const DirectoryGridObj = ({ data }: any) => {
     let fileId = event.data.fileId;
     qGetFiles.api.get({ ids: [fileId] });
     dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
-
-    console.log(event);
   }, []);
 
   return (

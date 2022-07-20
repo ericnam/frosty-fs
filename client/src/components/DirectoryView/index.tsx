@@ -12,10 +12,12 @@ import {
 import FilesRepository from "repositories/files.repository";
 import FilePath from "./components/filePath";
 import DirectoryGrid from "./components/directoryGrid";
+import { useNavigate } from "react-router-dom";
 
 const DirectoryView = (): JSX.Element => {
   // React router file-type/:id
   let { id } = useParams();
+  const navigate = useNavigate();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -28,7 +30,6 @@ const DirectoryView = (): JSX.Element => {
       dispatch(setFiles({ files: data } as ISetFilesPayload));
     },
   });
-  // const qGetDirectoryContent = FilesRepository.GetDirectoryContent();
 
   useEffect(() => {
     if (currentDirectoryId !== id && !!id) {
@@ -38,17 +39,16 @@ const DirectoryView = (): JSX.Element => {
 
   useEffect(() => {
     qGetFiles.api.get({ ids: [currentDirectoryId] });
-    // qGetDirectoryContent.api.get({ directoryId: currentDirectoryId });
+
+    if (id !== currentDirectoryId && currentDirectoryId !== "root") {
+      navigate(`/my-files/${currentDirectoryId}`);
+    }
   }, [currentDirectoryId]);
 
   return (
     <div className={`w-full h-full flex flex-col`}>
       <FilePath filePath={filePath as IFileModel[]} />
-      <DirectoryGrid
-        currentDirectoryId={currentDirectoryId}
-        // currentDirectoryId={currentDirectoryId}
-        // directoryContent={qGetDirectoryContent.data}
-      />
+      <DirectoryGrid currentDirectoryId={currentDirectoryId} />
     </div>
   );
 };

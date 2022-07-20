@@ -1,5 +1,5 @@
 import { IFileModel } from "@data/files/model";
-import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
+import { useAppDispatch } from "@hooks/redux.hooks";
 import { AgGridReact } from "ag-grid-react";
 import { useCallback } from "preact/hooks";
 import { MutableRefObject, useEffect, useState } from "react";
@@ -7,15 +7,12 @@ import {
   ISetFilesPayload,
   ISetSubDirectoryPayload,
 } from "reducers/files.reducer";
-import { getFiles, setFiles, setSubDirectory } from "reducers/files.slice";
+import { setFiles, setSubDirectory } from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 
 const DirectoryGridViewModel = (currentDirectoryId: string) => {
   const dispatch = useAppDispatch();
-  const files = useAppSelector(getFiles);
   const [gridData, setGridData] = useState<IFileModel[]>();
-
-  console.log(files);
 
   const qGetDirectoryContent = FilesRepository.GetDirectoryContent({
     onLoad: (data: IFileModel[]) => {
