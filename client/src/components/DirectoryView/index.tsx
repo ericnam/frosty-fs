@@ -24,6 +24,8 @@ const DirectoryView = (): JSX.Element => {
   const currentDirectoryId = useAppSelector(getCurrentDirectoryId);
   const filePath = useAppSelector(getFilePath);
 
+  console.log(currentDirectoryId);
+
   // Queries
   const qGetFiles = FilesRepository.GetFiles({
     onLoad: (data: IFileModel[]) => {
@@ -32,8 +34,8 @@ const DirectoryView = (): JSX.Element => {
   });
 
   useEffect(() => {
-    if (currentDirectoryId !== id && !!id) {
-      dispatch(setCurrentFile({ fileId: id }));
+    if (currentDirectoryId !== id) {
+      dispatch(setCurrentFile({ fileId: !!id ? id : "root" }));
     }
   }, [id]);
 
