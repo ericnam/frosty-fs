@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import {
@@ -10,6 +10,8 @@ import {
   setCurrentFile,
   setFiles,
   IReduxSubDirectories,
+  getFilePath,
+  getCurrentDirectoryId,
 } from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 import { IFileModel } from "@data/files/model";
@@ -27,15 +29,22 @@ const FileSystemNavbarItem = ({
   parentActive,
   last,
   tierDisplay,
+  isActive,
 }: any) => {
+  // react router dom
+  const location = useLocation();
+
   // Redux State
   const dispatch = useAppDispatch();
   const subDirectories = useAppSelector(
     getSubDirectories
   ) as IReduxSubDirectories;
+  const currentDirectoryId = useAppSelector(getCurrentDirectoryId);
+  const filePath = useAppSelector(getFilePath);
 
   // Component State
-  const [active, setActive] = useState<boolean>(false);
+  const [isCurrentDirectory, setIsCurrentDirectory] = useState(false);
+  const [active, setActive] = useState<boolean>(isActive);
   const [subDir, setSubDir] = useState<IFileModel[]>(
     subDirectories[!!fileId ? fileId : "root"]
   );
@@ -58,6 +67,16 @@ const FileSystemNavbarItem = ({
   });
 
   useEffect(() => {
+    setActive(isActive);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (!!filePath.find((fp) => fp.fileId == fileId)) {
+      setActive(true);
+    }
+  }, [subDir]);
+
+  useEffect(() => {
     if (parentActive && !!!subDir) {
       qGetDirectories.api.get({ directoryId: fileId });
     }
@@ -70,10 +89,19 @@ const FileSystemNavbarItem = ({
     setSubDir(subDirectories[!!fileId ? fileId : "root"]);
   }, [subDirectories]);
 
+  useEffect(() => {
+    setIsCurrentDirectory(
+      location.pathname.includes("my-files") && currentDirectoryId === fileId
+    );
+  }, [currentDirectoryId, location.pathname]);
+
   // Onclick handlers
   function setSelectedDirectory(fileId: string) {
     qGetFiles.api.get({ ids: [fileId] });
     dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
+    if (fileId === "root") {
+      setActive(true);
+    }
   }
 
   return (
@@ -91,7 +119,7 @@ const FileSystemNavbarItem = ({
             <Link
               className={`flex-1 cursor-pointer mx-3 my-2 ${
                 tier > 0 ? "pl-" + tier * 4 : ""
-              }`}
+              } ${isCurrentDirectory ? "font-bold" : "font-normal"}`}
               to={`/my-files${fileId !== "root" ? "/" + fileId : ""}`}
               onClick={() => setSelectedDirectory(fileId)}
             >

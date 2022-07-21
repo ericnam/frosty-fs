@@ -6,9 +6,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardNavbarItem from "./navbar.dashboard";
 import FileSystemNavbarItem from "./navbar.fileSystem";
+import { useEffect, useState } from "react";
 
 interface NavbarParam {
   loading: boolean;
@@ -101,6 +102,15 @@ const NavbarItem = ({
   route,
 }: NavbarItemParam): JSX.Element => {
   let iconColor = "";
+  const location = useLocation();
+  const [fileTabOpen, setFileTabOpen] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname.includes("my-files")) {
+      setFileTabOpen(true);
+    }
+  }, [location.pathname]);
+
   switch (title) {
     case "Dashboard":
       return (
@@ -120,6 +130,7 @@ const NavbarItem = ({
           icon={icon}
           fileId={"root"}
           tier={0}
+          isActive={fileTabOpen}
           tierDisplay={{}}
         />
       );
@@ -138,7 +149,13 @@ const NavbarItem = ({
             <span className={`mr-3 ${iconColor}`}>
               <FontAwesomeIcon icon={icon as IconProp} />
             </span>
-            {title}
+            <span
+              className={
+                location.pathname === `/${route}` ? "font-bold" : "font-normal"
+              }
+            >
+              {title}
+            </span>
             {dropDown ? (
               <span className={"float-right"}>
                 <FontAwesomeIcon icon={faAngleDown as IconProp} />
