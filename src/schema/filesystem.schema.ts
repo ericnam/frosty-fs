@@ -9,6 +9,7 @@ const fileSystemTypeDefs = gql`
     children: [String]
     content: String
     parentId: String
+    fileSize: String,
   }
 
   extend type Query {

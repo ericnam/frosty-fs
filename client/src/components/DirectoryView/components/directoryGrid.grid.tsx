@@ -7,12 +7,51 @@ import {
   setCurrentFile,
   setFiles,
 } from "reducers/files.slice";
-import { ISetCurrentFilePayload, ISetFilesPayload } from "reducers/files.reducer";
+import {
+  ISetCurrentFilePayload,
+  ISetFilesPayload,
+} from "reducers/files.reducer";
 import FilesRepository from "repositories/files.repository";
+import { faFile, faFolder } from "@fortawesome/free-regular-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const DirectoryGridTitleCellRenderer = (props: any) => {
+  let icon = null;
+
+  switch (props.data.type) {
+    case "directory":
+      icon = faFolder;
+      break;
+    case "file":
+      icon = faFile;
+      break;
+    default:
+      break;
+  }
+  return (
+    <span className={`flex items-center`}>
+      <span
+        className={`flex w-8 h-8 bg-violet-200 items-center justify-center rounded-full mr-4`}
+      >
+        <FontAwesomeIcon
+          icon={icon as IconProp}
+          className={`text-violet-600`}
+        />
+      </span>
+      <span>{props.value}</span>
+    </span>
+  );
+};
 
 const DirectoryGridColumnDefinitions: ColDef[] = [
   { field: "fileId", hide: true },
-  { field: "title", headerName: "Name", width: 600 },
+  {
+    field: "title",
+    headerName: "Name",
+    width: 600,
+    cellRenderer: DirectoryGridTitleCellRenderer,
+  },
   { field: "fileSize", headerName: "File Size" },
   { field: "type", headerName: "Type" },
   { field: "lastUpdated", headerName: "Last Updated" },
@@ -43,8 +82,11 @@ export const DirectoryGridObj = ({ data }: any) => {
 
   const onRowDoubleClicked = useCallback((event: RowClickedEvent) => {
     let fileId = event.data.fileId;
-    qGetFiles.api.get({ ids: [fileId] });
-    dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
+    let type = event.data.type;
+    if (type === "directory") {
+      qGetFiles.api.get({ ids: [fileId] });
+      dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
+    }
   }, []);
 
   return (

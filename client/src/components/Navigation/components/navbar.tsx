@@ -18,7 +18,7 @@ interface NavbarParam {
 
 const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
   return (
-    <div className={"w-96 h-screen bg-gray-50"}>
+    <div className={"w-96 h-screen bg-gray-900 text-white"}>
       <Link to={"/"}>
         <div className={`mx-8 mt-8 mb-12 flex`}>
           <span
@@ -65,7 +65,7 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
               );
             })
         : false}
-      <div className="my-6 border-t w-full h-1"></div>
+      <div className="my-6 border-t border-gray-800 w-full h-1"></div>
       {!loading && !!navigation
         ? navigation!
             .filter((e) => e.title !== "My Files" && e.title !== "Dashboard")
@@ -134,16 +134,12 @@ const NavbarItem = ({
           tierDisplay={{}}
         />
       );
-    // case "Favorites":
-    //   iconColor = "text-yellow-500";
-    // case "Recents":
-    //   iconColor = "text-teal-500";
     default:
       return (
         <Link to={`/${route}`}>
           <div
             className={
-              "text-slate-600 hover:bg-violet-100 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
+              "text-slate-300 hover:bg-gray-800 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
             }
           >
             <span className={`mr-3 ${iconColor}`}>
@@ -151,7 +147,7 @@ const NavbarItem = ({
             </span>
             <span
               className={
-                location.pathname === `/${route}` ? "font-bold" : "font-normal"
+                location.pathname === `/${route}` ? "font-semibold text-gray-50" : "font-normal"
               }
             >
               {title}

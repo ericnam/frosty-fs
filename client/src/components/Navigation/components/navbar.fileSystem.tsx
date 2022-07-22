@@ -20,6 +20,8 @@ import {
   ISetFilesPayload,
   ISetSubDirectoryPayload,
 } from "reducers/files.reducer";
+// import { GoFileDirectory } from "react-icons/go";
+// import { BsFolder2 } from "react-icons/bs";
 
 const FileSystemNavbarItem = ({
   fileId,
@@ -107,7 +109,7 @@ const FileSystemNavbarItem = ({
   return (
     <div>
       <div
-        className={`text-slate-600 hover:bg-violet-100 mx-6 rounded-lg font-sans text-sm`}
+        className={`text-slate-300 hover:bg-gray-800 mx-6 rounded-lg font-sans text-sm`}
       >
         <div className={`relative`}>
           <FileSystemTreeLine
@@ -117,16 +119,17 @@ const FileSystemNavbarItem = ({
           />
           <span className={`flex`}>
             <Link
-              className={`flex-1 cursor-pointer mx-3 my-2 ${
+              className={`flex flex-1 cursor-pointer mx-3 my-2 ${
                 tier > 0 ? "pl-" + tier * 4 : ""
-              } ${isCurrentDirectory ? "font-bold" : "font-normal"}`}
+              } ${isCurrentDirectory ? "text-gray-50 font-semibold" : "font-normal"}`}
               to={`/my-files${fileId !== "root" ? "/" + fileId : ""}`}
               onClick={() => setSelectedDirectory(fileId)}
             >
               <span className={"mr-3"}>
+                {/* <BsFolder2 className={""} /> */}
                 <FontAwesomeIcon icon={icon as IconProp} />
               </span>
-              {title}
+              <span>{title}</span>
             </Link>
             <span
               className={`${active ? "" : "rotate-180"} float-right px-3 py-2`}
@@ -175,7 +178,7 @@ const FileSystemTreeLine = ({ tier, tierDisplay, last }: any): JSX.Element => {
           key={i + "_1"}
           className={`absolute w-2 h-full pl-${
             (i - 1) * 4
-          } border-r-2 border-violet-300`}
+          } border-r-2 border-violet-500`}
         ></div>
       );
     }
@@ -186,14 +189,14 @@ const FileSystemTreeLine = ({ tier, tierDisplay, last }: any): JSX.Element => {
           key={i + "_2"}
           className={`absolute w-2 ${
             last ? "h-1/2" : "h-full"
-          } border-r-2 border-violet-300 pl-${i * 4}`}
+          } border-r-2 border-violet-500 pl-${i * 4}`}
         ></div>
       );
 
       treeLines.push(
         <div
           key={i + "_3"}
-          className={`absolute h-1/2 w-2 border-b-2 border-violet-300 ml-${
+          className={`absolute h-1/2 w-2 border-b-2 border-violet-500 ml-${
             i * 4
           }`}
         ></div>

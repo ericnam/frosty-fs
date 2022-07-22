@@ -8,6 +8,7 @@ export const GET_DIRECTORIES = gql`
       title
       type
       parentId
+      fileSize
     }
   }
 `;
@@ -20,6 +21,7 @@ export const GET_DIRECTORY_CONTENT = gql`
       title
       type
       parentId
+      fileSize
     }
   }
 `;
@@ -32,6 +34,7 @@ export const GET_FILES = gql`
       title
       type
       parentId
+      fileSize
     }
   }
 `;

@@ -7,6 +7,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch } from "@hooks/redux.hooks";
+import {
+  ActionMenuStore,
+  IActionMenuStore,
+} from "contexts/actionMenu.provider";
+import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ISetCurrentFilePayload } from "reducers/files.reducer";
 import { setCurrentFile } from "reducers/files.slice";
@@ -58,6 +63,29 @@ interface FilePathItemProps {
   last: boolean;
 }
 const FilePathItem = ({ filePath, last }: FilePathItemProps) => {
+  const { actionMenuState, setActionMenuState } =
+    useContext<IActionMenuStore>(ActionMenuStore);
+  const actionIconRef = useRef<any>(null);
+
+  function filePathMenuOnClick() {
+    if (actionIconRef.current) {
+      const { x, y } = actionIconRef.current.getBoundingClientRect();
+
+      // console.log(pos);
+      // console.log(pos.X);
+      // console.log(pos.Y);
+
+      console.log(actionIconRef.current.width);
+
+      setActionMenuState({
+        ...actionMenuState,
+        isActive: !actionMenuState.isActive,
+        posX: x + actionIconRef.current.clientWidth,
+        posY: y,
+      });
+    }
+  }
+
   return (
     <div className={`flex flex-row items-center`}>
       <Link to={`/my-files/${filePath.fileId}`}>
@@ -70,14 +98,11 @@ const FilePathItem = ({ filePath, last }: FilePathItemProps) => {
         </div>
       </Link>
       {last ? (
-        <div className="flex items-center">
-          {/* <FontAwesomeIcon
-            className={`text-gray-500 p-2 ml-4 hover:text-amber-300 cursor-pointer`}
-            icon={faStar as IconProp}
-          /> */}
+        <div ref={actionIconRef} className="flex items-center">
           <FontAwesomeIcon
             className={`bg-gray-100 hover:bg-gray-200 text-gray-500 p-2 ml-2 rounded-full cursor-pointer`}
             icon={faEllipsisVertical as IconProp}
+            onClick={filePathMenuOnClick}
           />
         </div>
       ) : null}

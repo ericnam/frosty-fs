@@ -6,6 +6,8 @@ const fileSystemData = [
     extension: null,
     children: ["dir1", "dir2", "file1"],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: null,
   },
   {
@@ -15,6 +17,8 @@ const fileSystemData = [
     extension: null,
     children: ["dir3", "dir5"],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "root",
   },
   {
@@ -24,6 +28,8 @@ const fileSystemData = [
     extension: null,
     children: ["dir4"],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "root",
   },
   {
@@ -33,6 +39,8 @@ const fileSystemData = [
     extension: ".txt",
     children: [],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "root",
   },
   {
@@ -42,6 +50,8 @@ const fileSystemData = [
     extension: null,
     children: ["dir6"],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "dir1",
   },
   {
@@ -51,6 +61,8 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "dir2",
   },
   {
@@ -60,6 +72,8 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "dir1",
   },
   {
@@ -69,6 +83,8 @@ const fileSystemData = [
     extension: null,
     children: [],
     content: null,
+    lastUpdated: new Date("2/2/2022"),
+    fileSize: "50kb",
     parentId: "dir3",
   },
 ];

@@ -11,6 +11,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 
 import apolloClient from "./apollo";
 import { store } from "./store";
+import { ActionMenuProvider } from "contexts/actionMenu.provider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,7 +19,9 @@ root.render(
   <ApolloProvider client={apolloClient}>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ActionMenuProvider>
+          <App />
+        </ActionMenuProvider>
       </BrowserRouter>
     </Provider>
   </ApolloProvider>

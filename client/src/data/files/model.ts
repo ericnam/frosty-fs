@@ -7,6 +7,8 @@ export interface IFileModel {
   children: string[];
   content: string;
   active: boolean;
+  fileSize: string;
+  lastUpdated: string;
 }
 
 class FileModel implements IFileModel {
@@ -18,6 +20,8 @@ class FileModel implements IFileModel {
   children: string[];
   content: string;
   active: boolean;
+  fileSize: string;
+  lastUpdated: string;
 
   constructor(gqlObject: any) {
     this.fileId = gqlObject.filedId;
@@ -27,6 +31,8 @@ class FileModel implements IFileModel {
     this.extension = gqlObject.extension;
     this.children = gqlObject.children;
     this.content = gqlObject.content;
+    this.fileSize = gqlObject.fileSize;
+    this.lastUpdated = gqlObject.lastUpdated;
 
     this.active = false;
   }
