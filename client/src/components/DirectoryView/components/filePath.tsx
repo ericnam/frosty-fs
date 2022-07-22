@@ -23,7 +23,7 @@ const FilePath = ({ filePath }: FilePathProps): JSX.Element => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className={`flex flex-row items-center mb-3`}>
+    <div className={`flex flex-row flex-1 items-center`}>
       <Link
         to="/my-files"
         onClick={() => {
