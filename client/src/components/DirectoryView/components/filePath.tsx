@@ -8,7 +8,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch } from "@hooks/redux.hooks";
 import {
+  ActionMenuActionType,
   ActionMenuStore,
+  IActionMenuActionPayload,
   IActionMenuStore,
 } from "contexts/actionMenu.provider";
 import { useContext, useRef } from "react";
@@ -63,7 +65,7 @@ interface FilePathItemProps {
   last: boolean;
 }
 const FilePathItem = ({ filePath, last }: FilePathItemProps) => {
-  const { actionMenuState, setActionMenuState } =
+  const { dispatchActionMenuState } =
     useContext<IActionMenuStore>(ActionMenuStore);
   const actionIconRef = useRef<any>(null);
 
@@ -71,17 +73,13 @@ const FilePathItem = ({ filePath, last }: FilePathItemProps) => {
     if (actionIconRef.current) {
       const { x, y } = actionIconRef.current.getBoundingClientRect();
 
-      // console.log(pos);
-      // console.log(pos.X);
-      // console.log(pos.Y);
-
-      console.log(actionIconRef.current.width);
-
-      setActionMenuState({
-        ...actionMenuState,
-        isActive: !actionMenuState.isActive,
-        posX: x + actionIconRef.current.clientWidth,
-        posY: y,
+      dispatchActionMenuState({
+        type: ActionMenuActionType.TOGGLE,
+        payload: {
+          x,
+          y,
+          elementWidth: actionIconRef.current.clientWidth,
+        } as IActionMenuActionPayload,
       });
     }
   }

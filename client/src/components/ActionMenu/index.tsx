@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import {
   ActionMenuStore,
   IActionMenuStore,
@@ -13,9 +13,8 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 const ActionMenu = () => {
-  const [actionIconWidth] = useState<number>(250);
   const { actionMenuState } = useContext<IActionMenuStore>(ActionMenuStore);
-
+  
   return (
     <div
       className={`${
@@ -24,7 +23,7 @@ const ActionMenu = () => {
       style={{
         left: actionMenuState.posX + 10,
         top: actionMenuState.posY,
-        width: actionIconWidth,
+        width: actionMenuState.menuWidth,
         height: "auto",
       }}
     >

@@ -54,7 +54,7 @@ const DirectoryView = (): JSX.Element => {
         <FilePath filePath={filePath as IFileModel[]} />
         <button className={`bg-violet-500 hover:bg-violet-600 text-white px-4 text-sm font-semibold rounded-md`}>
           <FontAwesomeIcon icon={faPlus as IconProp} className={`mr-2`}/>
-          Add
+          Add New
         </button>
       </div>
       <DirectoryGrid currentDirectoryId={currentDirectoryId} />

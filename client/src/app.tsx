@@ -9,11 +9,16 @@ import SearchBar from "@components/SearchBar/index.searchbar";
 import { ISetSubDirectoryPayload } from "reducers/files.reducer";
 import { IFileModel } from "@data/files/model";
 import ActionMenu from "@components/ActionMenu";
-import { ActionMenuStore } from "contexts/actionMenu.provider";
+import {
+  ActionMenuActionType,
+  ActionMenuStore,
+} from "contexts/actionMenu.provider";
+import UserProfileAndSettings from "@components/UserProfileAndSettings";
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { actionMenuState, setActionMenuState } = useContext(ActionMenuStore);
+  const { actionMenuState, dispatchActionMenuState } =
+    useContext(ActionMenuStore);
 
   // Gql Queries
   const qGetDirectories = FilesRepository.GetDirectories({
@@ -38,15 +43,21 @@ const App = (): JSX.Element => {
       <div
         onClick={() => {
           if (actionMenuState.isActive) {
-            setActionMenuState({ ...actionMenuState, isActive: false });
+            dispatchActionMenuState({
+              type: ActionMenuActionType.HIDE,
+            });
           }
         }}
         className={"z-0 relative flex flex-row"}
       >
         <NavigationComponent />
-        <div className={`flex flex-col relative w-full m-8 mt-0`}>
+        <div
+          className={`flex flex-col relative w-full m-8 mt-0`}
+          style={{ minWidth: 800 }}
+        >
           <div className={`w-full h-16 items-center flex`}>
             <SearchBar />
+            <UserProfileAndSettings />
           </div>
           <div className={`flex-1`}>
             <Routes>
