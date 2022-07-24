@@ -55,7 +55,7 @@ const App = (): JSX.Element => {
           className={`flex flex-col relative w-full m-8 mt-0`}
           style={{ minWidth: 800 }}
         >
-          <div className={`w-full h-16 items-center flex`}>
+          <div className={`w-full mt-4 items-center flex`}>
             <SearchBar />
             <UserProfileAndSettings />
           </div>

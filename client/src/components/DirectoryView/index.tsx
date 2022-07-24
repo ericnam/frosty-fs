@@ -13,9 +13,7 @@ import FilesRepository from "repositories/files.repository";
 import FilePath from "./components/filePath";
 import DirectoryGrid from "./components/directoryGrid";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import DirectoryToolbar from "./components/directoryToolbar";
 
 const DirectoryView = (): JSX.Element => {
   // React router file-type/:id
@@ -50,12 +48,11 @@ const DirectoryView = (): JSX.Element => {
 
   return (
     <div className={`w-full h-full flex flex-col`}>
-      <div className={`flex flex-row mb-3`}>
+      <div className={`flex flex-row mt-4`}>
         <FilePath filePath={filePath as IFileModel[]} />
-        <button className={`bg-violet-500 hover:bg-violet-600 text-white px-4 text-sm font-semibold rounded-md`}>
-          <FontAwesomeIcon icon={faPlus as IconProp} className={`mr-2`}/>
-          Add New
-        </button>
+      </div>
+      <div className={`mb-3 mt-3`}>
+        <DirectoryToolbar />
       </div>
       <DirectoryGrid currentDirectoryId={currentDirectoryId} />
     </div>

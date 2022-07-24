@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserProfileAndSettings = (): JSX.Element => {
   return (
-    <div className={`flex flex-row`}>
+    <div className={`flex flex-row mr-5`}>
       <span
         className={`text-gray-300 flex items-center justify-center h-10 w-10 cursor-pointer hover:text-gray-500`}
       >

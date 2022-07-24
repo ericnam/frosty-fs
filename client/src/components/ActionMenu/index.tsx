@@ -44,7 +44,7 @@ interface IActionMenuLineItemProps {
 const ActionMenuLineItem = ({ text, icon }: IActionMenuLineItemProps) => {
   return (
     <li
-      className={`text-sm px-6 py-2 hover:bg-gray-100 flex items-center text-gray-900 cursor-pointer`}
+      className={`text-xs px-6 py-2 hover:bg-gray-100 flex items-center text-gray-900 cursor-pointer`}
     >
       <FontAwesomeIcon icon={icon} className={`mr-4`} />
       <span>{text}</span>
