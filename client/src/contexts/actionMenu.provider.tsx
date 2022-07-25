@@ -5,6 +5,7 @@ export interface IActionMenuState {
   menuWidth: number;
   posX: number;
   posY: number;
+  menuType: ActionMenuMenuType;
 }
 export interface IActionMenuAction {
   type: string;
@@ -15,12 +16,16 @@ export interface IActionMenuActionPayload {
   y: number;
   elementWidth: number;
   isActive: boolean;
+  menuType: ActionMenuMenuType;
 }
 export interface IActionMenuStore {
   actionMenuState: IActionMenuState;
   dispatchActionMenuState: Function;
 }
-
+export enum ActionMenuMenuType {
+  DIRECTORY = "DIRECTORY",
+  ADD = "ADD",
+}
 export enum ActionMenuActionType {
   TOGGLE = "TOGGLE",
   HIDE = "HIDE",
@@ -30,7 +35,7 @@ const reducer = (state: IActionMenuState, action: IActionMenuAction) => {
     case ActionMenuActionType.TOGGLE:
       let clientWidth = document.body.clientWidth;
       let menuWidth = state.menuWidth;
-      let { x, y, elementWidth } = action.payload;
+      let { x, y, elementWidth, menuType } = action.payload;
 
       let posX;
 
@@ -44,7 +49,8 @@ const reducer = (state: IActionMenuState, action: IActionMenuAction) => {
         ...state,
         posX,
         posY: y,
-        isActive: !state.isActive,
+        isActive: state.menuType === menuType ? !state.isActive : true,
+        menuType: menuType,
       };
     case ActionMenuActionType.HIDE:
       return { ...state, isActive: false };
@@ -54,7 +60,13 @@ const reducer = (state: IActionMenuState, action: IActionMenuAction) => {
 };
 
 export const ActionMenuStore = createContext<IActionMenuStore>({
-  actionMenuState: { isActive: false, posX: 0, posY: 0, menuWidth: 250 },
+  actionMenuState: {
+    isActive: false,
+    posX: 0,
+    posY: 0,
+    menuWidth: 250,
+    menuType: ActionMenuMenuType.DIRECTORY,
+  },
   dispatchActionMenuState: () => {},
 });
 

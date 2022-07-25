@@ -1,6 +1,6 @@
 import { AgGridReact } from "ag-grid-react";
 import { useRef, useCallback, useEffect } from "react";
-import { ColDef, RowClickedEvent } from "ag-grid-community";
+import { ColDef, RowClickedEvent, RowDragEvent } from "ag-grid-community";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import {
   getCurrentDirectoryId,
@@ -44,7 +44,18 @@ const DirectoryGridTitleCellRenderer = (props: any) => {
   );
 };
 
+const DirectoryGridDefaultColumnDef: ColDef = {
+  resizable: true,
+  sortable: true,
+};
 const DirectoryGridColumnDefinitions: ColDef[] = [
+  {
+    checkboxSelection: true,
+    headerCheckboxSelection: true,
+    headerCheckboxSelectionFilteredOnly: true,
+    width: 57,
+    resizable: false,
+  },
   { field: "fileId", hide: true },
   {
     field: "title",
@@ -89,16 +100,27 @@ export const DirectoryGridObj = ({ data }: any) => {
     }
   }, []);
 
+  const onRowDragMove = (event: RowDragEvent<any>) => {
+    console.log(event);
+  };
+
   return (
     <div className="ag-theme-material flex-1">
-      <AgGridReact
-        ref={gridRef as any}
-        columnDefs={DirectoryGridColumnDefinitions}
-        rowData={data}
-        onGridReady={onGridReady}
-        onRowClicked={onRowClicked}
-        onRowDoubleClicked={onRowDoubleClicked}
-      ></AgGridReact>
+      <div style={{ width: "100%", height: "100%" }}>
+        <AgGridReact
+          ref={gridRef as any}
+          defaultColDef={DirectoryGridDefaultColumnDef}
+          columnDefs={DirectoryGridColumnDefinitions}
+          rowData={data}
+          onGridReady={onGridReady}
+          onRowClicked={onRowClicked}
+          onRowDoubleClicked={onRowDoubleClicked}
+          rowSelection={"multiple"}
+          headerHeight={30}
+          rowDragEntireRow={true}
+          onRowDragMove={onRowDragMove}
+        ></AgGridReact>
+      </div>
     </div>
   );
 };

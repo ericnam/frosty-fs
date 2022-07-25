@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch } from "@hooks/redux.hooks";
 import {
   ActionMenuActionType,
+  ActionMenuMenuType,
   ActionMenuStore,
   IActionMenuActionPayload,
   IActionMenuStore,
@@ -35,18 +36,12 @@ const FilePath = ({ filePath }: FilePathProps): JSX.Element => {
         }}
       >
         <div
-          className={`py-3 px-2 bg-violet-100 hover:bg-violet-200 rounded-lg text-violet-600 flex items-center`}
+          className={`py-3 px-3 bg-violet-100 hover:bg-violet-200 rounded-lg text-violet-600 flex items-center`}
         >
           <FontAwesomeIcon icon={faFolder as IconProp} />
-          <span className="ml-2 text-xs font-semibold">My Files</span>
+          <span className="ml-2 text-xs font-semibold">Frosty Files</span>
         </div>
       </Link>
-      {filePath.length === 0 ? (
-        <FontAwesomeIcon
-          className="mx-4 text-gray-500"
-          icon={faAngleRight as IconProp}
-        />
-      ) : null}
       {filePath.map((fp, i) => (
         <span key={i} className={`flex flex-row items-center`}>
           <FontAwesomeIcon
@@ -79,6 +74,7 @@ const FilePathItem = ({ filePath, last }: FilePathItemProps) => {
           x,
           y,
           elementWidth: actionIconRef.current.clientWidth,
+          menuType: ActionMenuMenuType.DIRECTORY,
         } as IActionMenuActionPayload,
       });
     }

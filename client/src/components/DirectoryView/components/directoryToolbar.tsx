@@ -6,11 +6,42 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  ActionMenuActionType,
+  ActionMenuMenuType,
+  ActionMenuStore,
+  IActionMenuActionPayload,
+  IActionMenuStore,
+} from "contexts/actionMenu.provider";
+import { useCallback, useContext, useRef } from "react";
 
 const DirectoryToolbar = (): JSX.Element => {
+  const addNewButtonRef = useRef<any>(null);
+  const { dispatchActionMenuState } =
+    useContext<IActionMenuStore>(ActionMenuStore);
+
+  const addNewOnClick = useCallback(() => {
+    if (!!addNewButtonRef.current) {
+      const { x, y } = addNewButtonRef.current.getBoundingClientRect();
+      dispatchActionMenuState({
+        type: ActionMenuActionType.TOGGLE,
+        payload: {
+          x,
+          y,
+          elementWidth: addNewButtonRef.current.clientWidth,
+          menuType: ActionMenuMenuType.ADD,
+        } as IActionMenuActionPayload,
+      });
+    }
+  }, []);
+
   return (
     <div className={`flex text-xs`}>
-      <button className={`py-3 px-3 bg-violet-500 text-white rounded-lg`}>
+      <button
+        ref={addNewButtonRef}
+        onClick={addNewOnClick}
+        className={`py-3 px-3 bg-pink-500 text-white rounded-lg`}
+      >
         <FontAwesomeIcon icon={faPlus as IconProp} className={``} />
         <span className={`ml-2 font-semibold`}>Add New</span>
       </button>

@@ -48,10 +48,10 @@ const DirectoryView = (): JSX.Element => {
 
   return (
     <div className={`w-full h-full flex flex-col`}>
-      <div className={`flex flex-row mt-4`}>
+      <div className={`flex flex-row mt-8`}>
         <FilePath filePath={filePath as IFileModel[]} />
       </div>
-      <div className={`mb-3 mt-3`}>
+      <div className={`mb-8 mt-3`}>
         <DirectoryToolbar />
       </div>
       <DirectoryGrid currentDirectoryId={currentDirectoryId} />

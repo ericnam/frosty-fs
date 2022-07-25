@@ -1,20 +1,31 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
+  ActionMenuMenuType,
   ActionMenuStore,
   IActionMenuStore,
 } from "contexts/actionMenu.provider";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import {
-  faFolder,
-  faStar,
-  faTrashCan,
-} from "@fortawesome/free-regular-svg-icons";
+import DirectoryActionsMenu from "./directoryActions.menu";
+import AddNewMenu from "./addNew.menu";
 
 const ActionMenu = () => {
   const { actionMenuState } = useContext<IActionMenuStore>(ActionMenuStore);
-  
+  const [menu, setMenu] = useState<JSX.Element>();
+
+  useEffect(() => {
+    switch (actionMenuState.menuType) {
+      case ActionMenuMenuType.ADD:
+        setMenu(<AddNewMenu />);
+        break;
+      case ActionMenuMenuType.DIRECTORY:
+        setMenu(<DirectoryActionsMenu />);
+        break;
+      default:
+        break;
+    }
+  }, [actionMenuState.menuType]);
+
   return (
     <div
       className={`${
@@ -27,12 +38,7 @@ const ActionMenu = () => {
         height: "auto",
       }}
     >
-      <ul className={`my-2`}>
-        <ActionMenuLineItem text="Rename" icon={faPencil as IconProp} />
-        <ActionMenuLineItem text="Move to" icon={faFolder as IconProp} />
-        <ActionMenuLineItem text="Add to favorites" icon={faStar as IconProp} />
-        <ActionMenuLineItem text="Delete" icon={faTrashCan as IconProp} />
-      </ul>
+      {menu}
     </div>
   );
 };
@@ -41,7 +47,10 @@ interface IActionMenuLineItemProps {
   text: string;
   icon: IconProp;
 }
-const ActionMenuLineItem = ({ text, icon }: IActionMenuLineItemProps) => {
+export const ActionMenuLineItem = ({
+  text,
+  icon,
+}: IActionMenuLineItemProps) => {
   return (
     <li
       className={`text-xs px-6 py-2 hover:bg-gray-100 flex items-center text-gray-900 cursor-pointer`}
