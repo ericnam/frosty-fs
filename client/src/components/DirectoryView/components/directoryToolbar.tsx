@@ -36,19 +36,30 @@ const DirectoryToolbar = (): JSX.Element => {
   }, []);
 
   return (
-    <div className={`flex text-xs`}>
+    <div className={`text-xs float-left bg-slate-50 rounded-xl p-1`}>
       <button
         ref={addNewButtonRef}
         onClick={addNewOnClick}
-        className={`py-3 px-3 bg-pink-500 text-white rounded-lg`}
+        className={`float-left py-3 px-3 bg-white box-border border-2 text-gray-700 rounded-lg hover:bg-gray-100`}
       >
         <FontAwesomeIcon icon={faPlus as IconProp} className={``} />
         <span className={`ml-2 font-semibold`}>Add New</span>
       </button>
-      <IconButton title="Rename" icon={faPencil as IconProp} />
-      <IconButton title="Move to" icon={faFolderTree as IconProp} />
-      <IconButton title="Add to favorites" icon={faStar as IconProp} />
-      <IconButton title="Delete" icon={faTrashCan as IconProp} />
+      <span
+        className={"float-left flex items-center justify-center ml-4"}
+        style={{ height: "44px" }}
+      >
+        <span className={"border-l h-6"}></span>
+      </span>
+      <span
+        className={`float-left flex flex-row items-center justify-center`}
+        style={{ height: "44px" }}
+      >
+        <IconButton title="Rename" icon={faPencil as IconProp} />
+        <IconButton title="Move to" icon={faFolderTree as IconProp} />
+        <IconButton title="Add to favorites" icon={faStar as IconProp} />
+        <IconButton title="Delete" icon={faTrashCan as IconProp} />
+      </span>
     </div>
   );
 };
@@ -59,7 +70,7 @@ interface IIconButton {
 }
 const IconButton = ({ title, icon }: IIconButton): JSX.Element => {
   return (
-    <button className={`text-gray-500 mx-4`} title={title}>
+    <button className={`text-gray-700 py-3 px-3 mx-2 hover:bg-gray-200 rounded-xl`} title={title}>
       <FontAwesomeIcon icon={icon as IconProp} />
     </button>
   );

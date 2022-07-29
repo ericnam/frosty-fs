@@ -35,12 +35,24 @@ const FilePath = ({ filePath }: FilePathProps): JSX.Element => {
           );
         }}
       >
-        <div
-          className={`py-3 px-3 bg-violet-100 hover:bg-violet-200 rounded-lg text-violet-600 flex items-center`}
-        >
-          <FontAwesomeIcon icon={faFolder as IconProp} />
-          <span className="ml-2 text-xs font-semibold">Frosty Files</span>
-        </div>
+        <span className={`flex flex-row`}>
+          <div
+            className={`py-3 pl-3 rounded-lg text-violet-500 flex items-center justify-center`}
+          >
+            <FontAwesomeIcon className={`mr-2`} icon={faFolder as IconProp} />
+            <FontAwesomeIcon
+              className="mx-4 text-gray-500"
+              icon={faAngleRight as IconProp}
+            />
+          </div>
+          <div
+            className={`rounded-lg p-2 hover:bg-gray-100 ${
+              filePath.length === 0 ? "font-semibold" : ""
+            }`}
+          >
+            My Files
+          </div>
+        </span>
       </Link>
       {filePath.map((fp, i) => (
         <span key={i} className={`flex flex-row items-center`}>
