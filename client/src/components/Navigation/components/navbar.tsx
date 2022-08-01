@@ -18,7 +18,7 @@ interface NavbarParam {
 
 const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
   return (
-    <div className={"w-96 h-screen bg-gray-900 text-white"}>
+    <div className={"w-80 h-screen bg-gray-900 text-white"}>
       <Link to={"/my-files"}>
         <div className={`mx-8 mt-8 mb-12 flex`}>
           <span

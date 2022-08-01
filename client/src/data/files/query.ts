@@ -9,6 +9,7 @@ export const GET_DIRECTORIES = gql`
       type
       parentId
       fileSize
+      lastUpdated
     }
   }
 `;
@@ -22,6 +23,7 @@ export const GET_DIRECTORY_CONTENT = gql`
       type
       parentId
       fileSize
+      lastUpdated
     }
   }
 `;
@@ -35,6 +37,7 @@ export const GET_FILES = gql`
       type
       parentId
       fileSize
+      lastUpdated
     }
   }
 `;
@@ -48,6 +51,7 @@ export const GET_FAVORITES = gql`
       type
       parentId
       fileSize
+      lastUpdated
     }
   }
 `;
@@ -61,6 +65,7 @@ export const GET_RECENT = gql`
       type
       parentId
       fileSize
+      lastUpdated
     }
   }
 `;

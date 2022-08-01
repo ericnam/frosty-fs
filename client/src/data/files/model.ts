@@ -32,7 +32,9 @@ class FileModel implements IFileModel {
     this.children = gqlObject.children;
     this.content = gqlObject.content;
     this.fileSize = gqlObject.fileSize;
-    this.lastUpdated = gqlObject.lastUpdated;
+    this.lastUpdated = new Date(gqlObject.lastUpdated)
+      .toISOString()
+      .split("T")[0];
 
     this.active = false;
   }

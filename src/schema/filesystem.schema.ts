@@ -12,6 +12,7 @@ const fileSystemTypeDefs = gql`
     fileSize: String
     trash: Boolean
     favorite: Boolean
+    lastUpdated: String
   }
 
   extend type Query {
