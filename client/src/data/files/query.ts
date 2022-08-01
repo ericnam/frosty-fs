@@ -51,3 +51,16 @@ export const GET_FAVORITES = gql`
     }
   }
 `;
+
+export const GET_RECENT_TYPE = "recent";
+export const GET_RECENT = gql`
+  query GetRecents {
+    ${GET_RECENT_TYPE} {
+      fileId
+      title
+      type
+      parentId
+      fileSize
+    }
+  }
+`;

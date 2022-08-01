@@ -7,6 +7,8 @@ import {
   GET_FAVORITES_TYPE,
   GET_FILES,
   GET_FILES_TYPE,
+  GET_RECENT,
+  GET_RECENT_TYPE,
 } from "@data/files/query";
 
 import { RepositoryParam, RepositoryHOF } from "repositories";
@@ -30,6 +32,10 @@ class FilesRepository {
 
   static GetFavorites(param?: RepositoryParam) {
     return RepositoryHOF(GET_FAVORITES, GET_FAVORITES_TYPE, param);
+  }
+
+  static GetRecents(param?: RepositoryParam) {
+    return RepositoryHOF(GET_RECENT, GET_RECENT_TYPE, param);
   }
 }
 

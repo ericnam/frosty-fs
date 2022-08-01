@@ -19,10 +19,10 @@ const fileSystemTypeDefs = gql`
     files(ids: [String]): [FileSystem]
     favorite: [FileSystem]
     trash: [FileSystem]
+    recent: [FileSystem]
     subDirectories(directoryId: String): [FileSystem]
     directoryContent(directoryId: String): [FileSystem]
   }
 `;
 
 export default fileSystemTypeDefs;
-  

@@ -6,15 +6,18 @@ export default {
       return fileSystemData;
     },
     files: (parent: any, args: any, context: any, info: any) => {
-      console.log("files");
       return fileSystemData.filter((fs) => args.ids.indexOf(fs.fileId) >= 0);
     },
     favorite: (parent: any, args: any, context: any, info: any) => {
-      console.log("fav");
       return fileSystemData.filter((fs) => fs.favorite);
     },
     trash: (parent: any, args: any, context: any, info: any) => {
       return fileSystemData.filter((fs) => fs.trash);
+    },
+    recent: (parent: any, args: any, context: any, info: any) => {
+      let currentDate = new Date();
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      return fileSystemData.filter((fs) => fs.lastUpdated >= currentDate);
     },
     subDirectories: (parent: any, args: any, context: any, info: any) => {
       let directory = fileSystemData.find(
