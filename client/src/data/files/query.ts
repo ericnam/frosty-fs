@@ -38,3 +38,16 @@ export const GET_FILES = gql`
     }
   }
 `;
+
+export const GET_FAVORITES_TYPE = "favorite";
+export const GET_FAVORITES = gql`
+  query GetFavorites {
+    ${GET_FAVORITES_TYPE} {
+      fileId
+      title
+      type
+      parentId
+      fileSize
+    }
+  }
+`;

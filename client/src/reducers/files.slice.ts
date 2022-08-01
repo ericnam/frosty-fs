@@ -14,13 +14,15 @@ export const filesSlice = createSlice({
   initialState: {
     filePath: [] as string[],
     currentFileId: "" as string,
+    currentView: "" as string,
     files: {} as IReduxFiles,
     subDirectories: {} as IReduxSubDirectories,
   },
   reducers: filesReducers,
 });
 
-export const { setSubDirectory, setCurrentFile, setFiles } = filesSlice.actions;
+export const { setSubDirectory, setCurrentFile, setFiles, setCurrentView } =
+  filesSlice.actions;
 
 export const getFiles = (state: RootState) => state.files.files;
 export const getSubDirectories = (state: RootState) =>
@@ -29,6 +31,7 @@ export const getCurrentDirectoryId = (state: RootState) =>
   state.files.currentFileId;
 export const getCurrentFile = (state: RootState) =>
   state.files.files[state.files.currentFileId];
+export const getCurrentView = (state: RootState) => state.files.currentView;
 export const getFilePath = (state: RootState) =>
   state.files.filePath.map((fp) => {
     return { fileId: fp, title: state.files.files[fp].title };

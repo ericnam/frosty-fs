@@ -9,12 +9,16 @@ const fileSystemTypeDefs = gql`
     children: [String]
     content: String
     parentId: String
-    fileSize: String,
+    fileSize: String
+    trash: Boolean
+    favorite: Boolean
   }
 
   extend type Query {
     fileSystem: [FileSystem]
     files(ids: [String]): [FileSystem]
+    favorite: [FileSystem]
+    trash: [FileSystem]
     subDirectories(directoryId: String): [FileSystem]
     directoryContent(directoryId: String): [FileSystem]
   }

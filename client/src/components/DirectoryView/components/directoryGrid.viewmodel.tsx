@@ -1,18 +1,28 @@
 import { IFileModel } from "@data/files/model";
-import { useAppDispatch } from "@hooks/redux.hooks";
-import { AgGridReact } from "ag-grid-react";
-import { useCallback } from "preact/hooks";
-import { MutableRefObject, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
+import { useEffect, useState } from "react";
 import {
   ISetFilesPayload,
   ISetSubDirectoryPayload,
 } from "reducers/files.reducer";
-import { setFiles, setSubDirectory } from "reducers/files.slice";
+import {
+  setFiles,
+  setCurrentFile,
+  setSubDirectory,
+  getCurrentDirectoryId,
+} from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
+import { useNavigate, useParams } from "react-router-dom";
 
-const DirectoryGridViewModel = (currentDirectoryId: string) => {
+const DirectoryGridViewModel = () => {
+  // React router file-type/:id
+  let { id } = useParams();
+  const navigate = useNavigate();
+
+  // Redux
   const dispatch = useAppDispatch();
   const [gridData, setGridData] = useState<IFileModel[]>();
+  const currentDirectoryId = useAppSelector(getCurrentDirectoryId);
 
   const qGetDirectoryContent = FilesRepository.GetDirectoryContent({
     onLoad: (data: IFileModel[]) => {
@@ -27,26 +37,38 @@ const DirectoryGridViewModel = (currentDirectoryId: string) => {
     },
   });
 
+  // Queries
+  const qGetFiles = FilesRepository.GetFiles({
+    onLoad: (data: IFileModel[]) => {
+      dispatch(setFiles({ files: data } as ISetFilesPayload));
+    },
+  });
+
+  useEffect(() => {
+    if (currentDirectoryId !== id) {
+      dispatch(setCurrentFile({ fileId: !!id ? id : "root" }));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    qGetFiles.api.get({ ids: [currentDirectoryId] });
+
+    if (id !== currentDirectoryId && currentDirectoryId !== "root") {
+      navigate(`/my-files/${currentDirectoryId}`);
+    }
+  }, [currentDirectoryId]);
+
   // Update Dir Content on Current Dir change
   useEffect(() => {
     if (!!currentDirectoryId) {
+      console.log("not favorites");
       qGetDirectoryContent.api.get({ directoryId: currentDirectoryId });
     }
   }, [currentDirectoryId]);
 
-  // Grid functions
-  const onGridReady = (gridRef: MutableRefObject<AgGridReact<any>>) => {
-    return useCallback(() => {
-      if (!!gridRef.current) {
-        gridRef.current.api.sizeColumnsToFit();
-      }
-    }, []);
-  };
-
   return {
     data: gridData,
     loading: qGetDirectoryContent.loading,
-    gridApi: { onGridReady },
   };
 };
 

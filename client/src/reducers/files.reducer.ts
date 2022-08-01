@@ -57,4 +57,12 @@ function setFiles(state: any, action: any) {
   }
 }
 
-export default { setSubDirectory, setCurrentFile, setFiles };
+export interface ISetCurrentViewPayload {
+  view: string;
+}
+function setCurrentView(state: any, action: any) {
+  let payload = action.payload as ISetCurrentViewPayload;
+  state.currentView = payload.view;
+}
+
+export default { setSubDirectory, setCurrentFile, setFiles, setCurrentView };

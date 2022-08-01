@@ -3,6 +3,8 @@ import {
   GET_DIRECTORIES_TYPE,
   GET_DIRECTORY_CONTENT,
   GET_DIRECTORY_CONTENT_TYPE,
+  GET_FAVORITES,
+  GET_FAVORITES_TYPE,
   GET_FILES,
   GET_FILES_TYPE,
 } from "@data/files/query";
@@ -24,6 +26,10 @@ class FilesRepository {
 
   static GetFiles(param?: RepositoryParam) {
     return RepositoryHOF(GET_FILES, GET_FILES_TYPE, param);
+  }
+
+  static GetFavorites(param?: RepositoryParam) {
+    return RepositoryHOF(GET_FAVORITES, GET_FAVORITES_TYPE, param);
   }
 }
 

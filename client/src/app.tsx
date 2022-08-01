@@ -14,6 +14,7 @@ import {
   ActionMenuStore,
 } from "contexts/actionMenu.provider";
 import UserProfileAndSettings from "@components/UserProfileAndSettings";
+import FileTypeView from "@components/FileTypeView";
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -61,6 +62,9 @@ const App = (): JSX.Element => {
           </div>
           <div className={`flex-1`}>
             <Routes>
+              <Route path={"/favorites"} element={<FileTypeView />}></Route>
+              <Route path={"/recents"} element={<FileTypeView />}></Route>
+              <Route path={"/trash"} element={<FileTypeView />}></Route>
               <Route path={"/my-files"} element={<DirectoryView />}></Route>
               <Route path={"/my-files/:id"} element={<DirectoryView />}></Route>
             </Routes>

@@ -80,6 +80,7 @@ const FileSystemNavbarItem = ({
 
   useEffect(() => {
     if (parentActive && !!!subDir) {
+      console.log("is it here?");
       qGetDirectories.api.get({ directoryId: fileId });
     }
   }, [parentActive]);
@@ -121,7 +122,11 @@ const FileSystemNavbarItem = ({
             <Link
               className={`flex flex-1 cursor-pointer mx-3 my-2 ${
                 tier > 0 ? "pl-" + tier * 4 : ""
-              } ${isCurrentDirectory ? "text-gray-50 font-semibold" : "font-normal"}`}
+              } ${
+                isCurrentDirectory
+                  ? "text-gray-50 font-semibold"
+                  : "font-normal"
+              }`}
               to={`/my-files${fileId !== "root" ? "/" + fileId : ""}`}
               onClick={() => setSelectedDirectory(fileId)}
             >
