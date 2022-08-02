@@ -80,7 +80,6 @@ const FileSystemNavbarItem = ({
 
   useEffect(() => {
     if (parentActive && !!!subDir) {
-      console.log("is it here?");
       qGetDirectories.api.get({ directoryId: fileId });
     }
   }, [parentActive]);

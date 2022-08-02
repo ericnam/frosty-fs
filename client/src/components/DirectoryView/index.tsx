@@ -2,13 +2,12 @@ import { IFileModel } from "@data/files/model";
 import { useAppSelector } from "@hooks/redux.hooks";
 import {  getFilePath } from "reducers/files.slice";
 import FilePath from "./components/filePath";
-import DirectoryToolbar from "./components/directoryToolbar";
 import DirectoryGridViewModel from "./components/directoryGrid.viewmodel";
 import { DirectoryGridObj } from "@components/DataGrid";
+import DirectoryToolbar from "@components/DirectoryToolbar";
 
 const DirectoryView = (): JSX.Element => {
   const filePath = useAppSelector(getFilePath);
-
   const viewModel = DirectoryGridViewModel();
 
   return (

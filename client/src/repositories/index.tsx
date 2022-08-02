@@ -28,10 +28,6 @@ function RepositoryHOF(
     setGetInit(!getInit);
   }
 
-  if (dataType === "favorite") {
-    console.log(gqlRes);
-  }
-
   // Callbacks
   if (!!repoParam && typeof repoParam.onLoad === "function") {
     useEffect(() => {

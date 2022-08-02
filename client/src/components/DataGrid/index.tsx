@@ -1,6 +1,10 @@
 import { AgGridReact } from "ag-grid-react";
 import { useRef, useCallback, useEffect } from "react";
-import { ColDef, RowClickedEvent, RowDragEvent } from "ag-grid-community";
+import {
+  ColDef,
+  RowClickedEvent,
+  // RowSelectedEvent
+} from "ag-grid-community";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import {
   getCurrentDirectoryId,
@@ -100,9 +104,17 @@ export const DirectoryGridObj = ({ data }: any) => {
     }
   }, []);
 
-  const onRowDragMove = (event: RowDragEvent<any>) => {
-    console.log(event);
-  };
+  const onRowSelected = () =>
+    // event: RowSelectedEvent
+    {
+      if (!!gridRef.current) {
+        console.log(gridRef.current.api.getSelectedRows());
+      }
+    };
+
+  // const onRowDragMove = (event: RowDragEvent<any>) => {
+  //   console.log(event);
+  // };
 
   return (
     <div className="ag-theme-material flex-1">
@@ -117,8 +129,9 @@ export const DirectoryGridObj = ({ data }: any) => {
           onRowDoubleClicked={onRowDoubleClicked}
           rowSelection={"multiple"}
           headerHeight={30}
-          rowDragEntireRow={true}
-          onRowDragMove={onRowDragMove}
+          onRowSelected={onRowSelected}
+          // rowDragEntireRow={true}
+          // onRowDragMove={onRowDragMove}
         ></AgGridReact>
       </div>
     </div>

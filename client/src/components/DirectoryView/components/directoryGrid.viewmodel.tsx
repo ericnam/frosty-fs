@@ -61,7 +61,6 @@ const DirectoryGridViewModel = () => {
   // Update Dir Content on Current Dir change
   useEffect(() => {
     if (!!currentDirectoryId) {
-      console.log("not favorites");
       qGetDirectoryContent.api.get({ directoryId: currentDirectoryId });
     }
   }, [currentDirectoryId]);
