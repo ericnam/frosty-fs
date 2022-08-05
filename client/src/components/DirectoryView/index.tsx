@@ -29,11 +29,11 @@ const MyFilesDirectoryHeader = ({
   filePath,
 }: IMyFilesDirectoryHeader): JSX.Element => {
   return (
-    <div className="mb-4">
+    <div className="">
       <div className={`flex flex-row mt-8`}>
         <FilePath filePath={filePath as IFileModel[]} />
       </div>
-      <div className={`mt-3`}>
+      <div className={``}>
         <DirectoryToolbar />
       </div>
     </div>

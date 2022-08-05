@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef } from "react";
 import DirectoryToolbarViewModel from "./viewModel";
 
-interface IDirectoryToolbarProps {
+export interface IDirectoryToolbarProps {
   addNew?: boolean;
   rename?: boolean;
   favorite?: boolean;
@@ -21,19 +21,25 @@ const DirectoryToolbar = (props: IDirectoryToolbarProps): JSX.Element => {
   const viewModel = DirectoryToolbarViewModel(addNewButtonRef)();
 
   return (
-    <div className={`float-left text-xs bg-slate-100 rounded-xl h-12 p-1 pr-2`}>
+    <div
+      className={`mt-3 mb-4 float-left text-xs bg-slate-100 rounded-xl h-12 p-1 pr-2 ${
+        props.addNew === false ? "pl-2" : ""
+      }`}
+    >
       {DirectoryToolbarPropsNullCheck(
-        <button
-          ref={addNewButtonRef}
-          onClick={viewModel.api.addNewOnClick}
-          className={`float-left px-3 h-10 bg-white box-border text-gray-700 rounded-lg hover:bg-slate-500 hover:text-slate-50`}
-        >
-          <FontAwesomeIcon icon={faPlus as IconProp} className={``} />
-          <span className={`ml-2 font-semibold`}>Add New</span>
-        </button>,
+        <>
+          <button
+            ref={addNewButtonRef}
+            onClick={viewModel.api.addNewOnClick}
+            className={`float-left px-3 h-10 bg-white box-border text-gray-700 rounded-lg hover:bg-slate-500 hover:text-slate-50`}
+          >
+            <FontAwesomeIcon icon={faPlus as IconProp} className={``} />
+            <span className={`ml-2 font-semibold`}>Add New</span>
+          </button>
+          <ToolbarDivider />
+        </>,
         props.addNew
       )}
-      <ToolbarDivider />
       {DirectoryToolbarPropsNullCheck(
         <IconButton title="Rename" icon={faPencil as IconProp} first={true} />,
         props.rename

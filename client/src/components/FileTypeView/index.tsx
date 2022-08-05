@@ -3,6 +3,9 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useLocation } from "react-router-dom";
 import FileTypeViewViewModel from "./viewModel";
 import { DirectoryGridObj } from "@components/DataGrid";
+import DirectoryToolbar, {
+  IDirectoryToolbarProps,
+} from "@components/DirectoryToolbar";
 
 const FileTypeView = (): JSX.Element => {
   const { pathname } = useLocation();
@@ -13,11 +16,12 @@ const FileTypeView = (): JSX.Element => {
       <ViewsDirectoryHeader
         currentView={viewModel.view}
         icon={viewModel.icon}
+        toolnarProps={viewModel.data.toolbarProps}
       />
-      {viewModel.loading && !!viewModel.gridData ? (
+      {viewModel.data.grid.loading && !!viewModel.data.grid.data ? (
         <div>Loading</div>
       ) : (
-        <DirectoryGridObj data={viewModel.gridData} />
+        <DirectoryGridObj data={viewModel.data.grid.data} />
       )}
     </div>
   );
@@ -26,14 +30,16 @@ const FileTypeView = (): JSX.Element => {
 interface IViewsDirectoryHeader {
   currentView: string;
   icon: IconProp;
+  toolnarProps: IDirectoryToolbarProps;
 }
 const ViewsDirectoryHeader = ({
   currentView,
   icon,
+  toolnarProps,
 }: IViewsDirectoryHeader): JSX.Element => {
   return (
     <div>
-      <div className={`flex flex-row flex-1 items-center mt-8 mb-4`}>
+      <div className={`flex flex-row flex-1 items-center mt-8`}>
         <span className={`flex flex-row`}>
           <div
             className={`py-3 pl-3 rounded-lg text-violet-500 flex items-center justify-center`}
@@ -43,6 +49,7 @@ const ViewsDirectoryHeader = ({
           <div className={`rounded-lg p-2 font-semibold`}>{currentView}</div>
         </span>
       </div>
+      <DirectoryToolbar {...toolnarProps} />
     </div>
   );
 };
