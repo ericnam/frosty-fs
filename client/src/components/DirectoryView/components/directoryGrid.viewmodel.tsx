@@ -1,18 +1,19 @@
 import { IFileModel } from "@data/files/model";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import { useEffect, useState } from "react";
+// import {
+//   ISetFilesPayload,
+//   ISetSubDirectoryPayload,
+// } from "reducers/files.reducer";
 import {
-  ISetFilesPayload,
-  ISetSubDirectoryPayload,
-} from "reducers/files.reducer";
-import {
-  setFiles,
+  // setFiles,
   setCurrentFile,
-  setSubDirectory,
+  // setSubDirectory,
   getCurrentDirectoryId,
 } from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 import { useNavigate, useParams } from "react-router-dom";
+import FileService from "services/files.services";
 
 const DirectoryGridViewModel = () => {
   // React router file-type/:id
@@ -24,25 +25,18 @@ const DirectoryGridViewModel = () => {
   const [gridData, setGridData] = useState<IFileModel[]>();
   const currentDirectoryId = useAppSelector(getCurrentDirectoryId);
 
-  const qGetDirectoryContent = FilesRepository.GetDirectoryContent({
-    onLoad: (data: IFileModel[]) => {
-      setGridData(data);
-      dispatch(setFiles({ files: data } as ISetFilesPayload));
-      dispatch(
-        setSubDirectory({
-          fileId: currentDirectoryId,
-          subDirectories: data.filter((file) => file.type === "directory"),
-        } as ISetSubDirectoryPayload)
-      );
-    },
-  });
-
   // Queries
-  const qGetFiles = FilesRepository.GetFiles({
-    onLoad: (data: IFileModel[]) => {
-      dispatch(setFiles({ files: data } as ISetFilesPayload));
-    },
-  });
+  const _GetFilesByFileIds = FilesRepository.GetFilesByFileIds();
+  const _GetChildrenFilesByParentFileId =
+    FilesRepository.GetChildrenFilesByParentFileId();
+
+  // Services
+  const [fileService] = useState(
+    new FileService(
+      { _GetFilesByFileIds, _GetChildrenFilesByParentFileId },
+      dispatch
+    )
+  );
 
   useEffect(() => {
     if (currentDirectoryId !== id) {
@@ -51,23 +45,23 @@ const DirectoryGridViewModel = () => {
   }, [id]);
 
   useEffect(() => {
-    qGetFiles.api.get({ ids: [currentDirectoryId] });
+    if (!!currentDirectoryId) {
+      fileService.GetFilesByFileIds({ ids: [currentDirectoryId] });
+      fileService
+        .GetChildrenFilesByFileId({ fileId: currentDirectoryId })
+        ?.then((data: IFileModel[]) => {
+          setGridData(data);
+        });
+    }
 
     if (id !== currentDirectoryId && currentDirectoryId !== "root") {
       navigate(`/my-files/${currentDirectoryId}`);
     }
   }, [currentDirectoryId]);
 
-  // Update Dir Content on Current Dir change
-  useEffect(() => {
-    if (!!currentDirectoryId) {
-      qGetDirectoryContent.api.get({ directoryId: currentDirectoryId });
-    }
-  }, [currentDirectoryId]);
-
   return {
     data: gridData,
-    loading: qGetDirectoryContent.loading,
+    // loading: qGetDirectoryContent.loading,
   };
 };
 

@@ -13,7 +13,7 @@ const DirectoryView = (): JSX.Element => {
   return (
     <div className={`w-full h-full flex flex-col`}>
       <MyFilesDirectoryHeader filePath={filePath as IFileModel[]} />
-      {!viewModel.data || viewModel.loading ? (
+      {!viewModel.data ? (
         <div>Loading</div>
       ) : (
         <DirectoryGridObj data={viewModel.data} />

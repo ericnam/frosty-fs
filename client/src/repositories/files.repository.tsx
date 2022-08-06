@@ -11,11 +11,64 @@ import {
   GET_RECENT_TYPE,
 } from "@data/files/query";
 
-import { RepositoryParam, RepositoryHOF } from "repositories";
+import {
+  RepositoryParam,
+  RepositoryHOF,
+  AsyncRepositoryHOF,
+} from "repositories";
 
+/* class decorator */
+function staticImplements<T>() {
+  return <U extends T>(constructor: U) => {
+    constructor;
+  };
+}
+
+/**
+ * Repository Interface
+ */
+interface IFilesRepository {}
+interface IFilesRepositoryStatic {
+  new (): IFilesRepository;
+  GetDirectories(): IGetDirectories;
+  GetFilesByFileIds(): IGetFilesByFileIds;
+  GetChildrenFilesByParentFileId(): IGetChildrenFilesByParentFileId;
+}
+
+export type IGetDirectories = (variables: any) => Promise<any>;
+export type IGetFilesByFileIds = (variables: any) => Promise<any>;
+export type IGetChildrenFilesByParentFileId = (variables: any) => Promise<any>;
+
+/**
+ *
+ */
+@staticImplements<IFilesRepositoryStatic>()
 class FilesRepository {
-  static GetDirectories(param?: RepositoryParam) {
-    return RepositoryHOF(GET_DIRECTORIES, GET_DIRECTORIES_TYPE, param);
+  /**
+   *
+   * @returns
+   */
+  static GetDirectories(): IGetDirectories {
+    return AsyncRepositoryHOF(GET_DIRECTORIES, GET_DIRECTORIES_TYPE);
+  }
+
+  /**
+   *
+   * @returns
+   */
+  static GetFilesByFileIds() {
+    return AsyncRepositoryHOF(GET_FILES, GET_FILES_TYPE);
+  }
+
+  /**
+   *
+   * @returns
+   */
+  static GetChildrenFilesByParentFileId() {
+    return AsyncRepositoryHOF(
+      GET_DIRECTORY_CONTENT,
+      GET_DIRECTORY_CONTENT_TYPE
+    );
   }
 
   static GetDirectoryContent(param?: RepositoryParam) {
@@ -26,8 +79,8 @@ class FilesRepository {
     );
   }
 
-  static GetFiles(param?: RepositoryParam) {
-    return RepositoryHOF(GET_FILES, GET_FILES_TYPE, param);
+  static GetFiles() {
+    return AsyncRepositoryHOF(GET_FILES, GET_FILES_TYPE);
   }
 
   static GetFavorites(param?: RepositoryParam) {

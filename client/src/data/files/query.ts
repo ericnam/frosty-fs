@@ -5,11 +5,6 @@ export const GET_DIRECTORIES = gql`
   query GetSubDirectories($directoryId: String) {
     ${GET_DIRECTORIES_TYPE}(directoryId: $directoryId) {
       fileId
-      title
-      type
-      parentId
-      fileSize
-      lastUpdated
     }
   }
 `;

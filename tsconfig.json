@@ -12,7 +12,8 @@
       "@data/*": ["data/*"],
       "@resolvers/*": ["resolvers/*"],
       "@schema/*": ["schema/*"]
-    }
+    },
+    "experimentalDecorators":true
   },
   "exclude": ["./node_modules", "./client"]
 }

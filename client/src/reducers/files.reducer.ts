@@ -1,5 +1,6 @@
 import { IFileModel } from "@data/files/model";
 import { current } from "@reduxjs/toolkit";
+import { IFileSliceState } from "./files.slice";
 
 export interface ISetSubDirectoryPayload {
   fileId: string;
@@ -8,6 +9,44 @@ export interface ISetSubDirectoryPayload {
 function setSubDirectory(state: any, action: any) {
   let payload = action.payload as ISetSubDirectoryPayload;
   state.subDirectories[payload.fileId] = payload.subDirectories;
+}
+
+/**
+ * Update the file id to children file id mapping
+ * @param state
+ * @param action
+ */
+function setDirectoryToChildrenMap(state: IFileSliceState, action: any) {
+  let payload = action.payload as ISetDirectoryToChildrenMapPayload;
+  let map: { [key: string]: boolean | undefined } = {};
+
+  for (let childMap of payload.childrenMapFileIdArr) {
+    if (!map.hasOwnProperty(childMap)) {
+      map[childMap] = true;
+    }
+  }
+
+  state.directoryToChildrenMap[payload.fileId] = map;
+}
+export interface ISetDirectoryToChildrenMapPayload {
+  fileId: string;
+  childrenMapFileIdArr: string[];
+}
+
+/**
+ * Update master file store by file id
+ * Overwrite any existing file with updated data
+ * @param state
+ * @param action
+ */
+function setFileIdToFileModel(state: IFileSliceState, action: any) {
+  let payload = action.payload as ISetFileIdToFileModelPayload;
+  for (let file of payload.files) {
+    state.fileIdToFile[file.fileId] = file;
+  }
+}
+export interface ISetFileIdToFileModelPayload {
+  files: IFileModel[];
 }
 
 export interface ISetCurrentFilePayload {
@@ -65,4 +104,12 @@ function setCurrentView(state: any, action: any) {
   state.currentView = payload.view;
 }
 
-export default { setSubDirectory, setCurrentFile, setFiles, setCurrentView };
+export default {
+  setSubDirectory,
+  setCurrentFile,
+  setFiles,
+  setCurrentView,
+
+  setDirectoryToChildrenMap,
+  setFileIdToFileModel,
+};

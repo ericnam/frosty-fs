@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import filesReducer from "reducers/files.slice";
+import filesReducer, { IFileSliceState } from "reducers/files.slice";
 
-export const store = configureStore({
+export interface IStore {
+  files: IFileSliceState;
+}
+export const store = configureStore<IStore>({
   reducer: {
     files: filesReducer,
   },

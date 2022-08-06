@@ -1,13 +1,10 @@
 import NavigationComponent from "@components/Navigation";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "@hooks/redux.hooks";
-import { setSubDirectory } from "reducers/files.slice";
 import DirectoryView from "@components/DirectoryView";
 import FilesRepository from "repositories/files.repository";
 import SearchBar from "@components/SearchBar/index.searchbar";
-import { ISetSubDirectoryPayload } from "reducers/files.reducer";
-import { IFileModel } from "@data/files/model";
 import ActionMenu from "@components/ActionMenu";
 import {
   ActionMenuActionType,
@@ -15,6 +12,7 @@ import {
 } from "contexts/actionMenu.provider";
 import UserProfileAndSettings from "@components/UserProfileAndSettings";
 import FileTypeView from "@components/FileTypeView";
+import FileService from "services/files.services";
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -22,20 +20,16 @@ const App = (): JSX.Element => {
     useContext(ActionMenuStore);
 
   // Gql Queries
-  const qGetDirectories = FilesRepository.GetDirectories({
-    onLoad: (data: any) => {
-      dispatch(
-        setSubDirectory({
-          fileId: "root",
-          subDirectories: data as IFileModel[],
-        } as ISetSubDirectoryPayload)
-      );
-    },
-  });
+  const _GetDirectories = FilesRepository.GetDirectories();
+
+  // Services
+  const [fileService] = useState(
+    new FileService({ _GetDirectories }, dispatch)
+  );
 
   // Initial data load
   useEffect(() => {
-    qGetDirectories.api.get({ directoryId: "root" });
+    fileService.GetSubdirectoriesByFileId({ fileId: "root" });
   }, []);
 
   return (

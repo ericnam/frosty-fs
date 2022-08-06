@@ -79,11 +79,7 @@ export const DirectoryGridObj = ({ data }: any) => {
 
   useEffect(() => {}, [currentDirectoryId]);
 
-  const qGetFiles = FilesRepository.GetFiles({
-    onLoad: (data: any) => {
-      dispatch(setFiles({ files: data } as ISetFilesPayload));
-    },
-  });
+  const qGetFiles = FilesRepository.GetFiles();
 
   const onGridReady = useCallback(() => {
     if (!!gridRef.current) {
@@ -99,7 +95,10 @@ export const DirectoryGridObj = ({ data }: any) => {
     let fileId = event.data.fileId;
     let type = event.data.type;
     if (type === "directory") {
-      qGetFiles.api.get({ ids: [fileId] });
+      qGetFiles({ ids: [fileId] }).then((data: any) => {
+        dispatch(setFiles({ files: data } as ISetFilesPayload));
+      });
+      // qGetFiles.api.get({ ids: [fileId] });
       dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
     }
   }, []);
@@ -108,7 +107,7 @@ export const DirectoryGridObj = ({ data }: any) => {
     // event: RowSelectedEvent
     {
       if (!!gridRef.current) {
-        console.log(gridRef.current.api.getSelectedRows());
+        // console.log(gridRef.current.api.getSelectedRows());
       }
     };
 

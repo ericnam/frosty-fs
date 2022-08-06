@@ -1,36 +1,19 @@
-// import { IFileModel } from "@data/files/model";
 // import { createSlice } from "@reduxjs/toolkit";
 // import { RootState } from "store";
 // import filesReducers from "./files.reducer";
 
-// export interface IReduxFiles {
-//   [key: string]: IFileModel;
-// }
-// export interface IReduxSubDirectories {
-//   [key: string]: IFileModel[];
-// }
-
-// export enum EDialogBoxType {
-//     CREATE = "CREATE",
-    
-// }
-
-// export const dialogBoxSlice = createSlice({
-//   name: "dialogBox",
+// export const activeFileSlice = createSlice({
+//   name: "files",
 //   initialState: {
 //     filePath: [] as string[],
-//     currentFileId: "" as string,
-//     currentView: "" as string,
-//     files: {} as IReduxFiles,
-//     subDirectories: {} as IReduxSubDirectories,
-
-//     // type: null as EDialogBoxType
+//     fileId: "" as string,
+//     view: "" as string,
 //   },
 //   reducers: filesReducers,
 // });
 
 // export const { setSubDirectory, setCurrentFile, setFiles, setCurrentView } =
-// dialogBoxSlice.actions;
+// activeFileSlice.actions;
 
 // export const getFiles = (state: RootState) => state.files.files;
 // export const getSubDirectories = (state: RootState) =>
@@ -45,4 +28,4 @@
 //     return { fileId: fp, title: state.files.files[fp].title };
 //   });
 
-// export default dialogBoxSlice.reducer;
+// export default activeFileSlice.reducer;

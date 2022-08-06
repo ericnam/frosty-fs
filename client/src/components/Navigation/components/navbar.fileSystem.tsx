@@ -20,8 +20,6 @@ import {
   ISetFilesPayload,
   ISetSubDirectoryPayload,
 } from "reducers/files.reducer";
-// import { GoFileDirectory } from "react-icons/go";
-// import { BsFolder2 } from "react-icons/bs";
 
 const FileSystemNavbarItem = ({
   fileId,
@@ -52,21 +50,8 @@ const FileSystemNavbarItem = ({
   );
 
   // Gql Queries
-  const qGetFiles = FilesRepository.GetFiles({
-    onLoad: (data: IFileModel[]) => {
-      dispatch(setFiles({ files: data } as ISetFilesPayload));
-    },
-  });
-  const qGetDirectories = FilesRepository.GetDirectories({
-    onLoad: (data: IFileModel[]) => {
-      dispatch(
-        setSubDirectory({
-          fileId: fileId,
-          subDirectories: data,
-        } as ISetSubDirectoryPayload)
-      );
-    },
-  });
+  const qGetFiles = FilesRepository.GetFiles();
+  const qGetDirectories = FilesRepository.GetDirectories();
 
   useEffect(() => {
     setActive(isActive);
@@ -80,13 +65,24 @@ const FileSystemNavbarItem = ({
 
   useEffect(() => {
     if (parentActive && !!!subDir) {
-      qGetDirectories.api.get({ directoryId: fileId });
+      qGetDirectories({ directoryId: fileId }).then((data: IFileModel[]) => {
+        dispatch(
+          setSubDirectory({
+            fileId: fileId,
+            subDirectories: data,
+          } as ISetSubDirectoryPayload)
+        );
+      });
     }
   }, [parentActive]);
 
   useEffect(() => {
     if (subDirectories.hasOwnProperty(fileId)) {
-      qGetFiles.api.get({ ids: subDirectories[fileId].map((f) => f.fileId) });
+      qGetFiles({ ids: subDirectories[fileId].map((f) => f.fileId) }).then(
+        (data: IFileModel[]) => {
+          dispatch(setFiles({ files: data } as ISetFilesPayload));
+        }
+      );
     }
     setSubDir(subDirectories[!!fileId ? fileId : "root"]);
   }, [subDirectories]);
@@ -99,7 +95,9 @@ const FileSystemNavbarItem = ({
 
   // Onclick handlers
   function setSelectedDirectory(fileId: string) {
-    qGetFiles.api.get({ ids: [fileId] });
+    qGetFiles({ ids: [fileId] }).then((data: IFileModel[]) => {
+      dispatch(setFiles({ files: data } as ISetFilesPayload));
+    });
     dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
     if (fileId === "root") {
       setActive(true);

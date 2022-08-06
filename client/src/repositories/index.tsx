@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/client";
+import { QueryResult, useLazyQuery } from "@apollo/client";
 import { DocumentNode } from "graphql";
 import { useEffect, useState } from "react";
 
@@ -40,4 +40,17 @@ function RepositoryHOF(
   return { api: { get }, data: gqlRes.data, loading: gqlRes.loading };
 }
 
-export { RepositoryHOF, RepositoryParam };
+function AsyncRepositoryHOF(gqlQuery: DocumentNode, dataType: string) {
+  // Apollo Query
+  const [gqlGet] = useLazyQuery(gqlQuery, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  return (variables: any) => {
+    return gqlGet({ variables: variables }).then(
+      (res: QueryResult) => res.data[dataType]
+    );
+  };
+}
+
+export { RepositoryHOF, RepositoryParam, AsyncRepositoryHOF };

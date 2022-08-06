@@ -33,7 +33,8 @@
         "@hooks/*": [ "hooks/*" ],
         "@helpers/*": [ "helpers/*" ],
         "@data/*": [ "data/*" ],
-      }
+      },
+      "experimentalDecorators": true
     },
     "include": [
       "src/**/*",

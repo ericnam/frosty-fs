@@ -9,6 +9,18 @@ export interface IReduxFiles {
 export interface IReduxSubDirectories {
   [key: string]: IFileModel[];
 }
+export interface IFileSliceState {
+  filePath: string[];
+  currentFileId: string;
+  currentView: string;
+  files: IReduxFiles;
+  subDirectories: IReduxSubDirectories;
+
+  directoryToChildrenMap: {
+    [key: string]: { [key: string]: boolean | undefined };
+  };
+  fileIdToFile: { [key: string]: IFileModel };
+}
 export const filesSlice = createSlice({
   name: "files",
   initialState: {
@@ -17,12 +29,22 @@ export const filesSlice = createSlice({
     currentView: "" as string,
     files: {} as IReduxFiles,
     subDirectories: {} as IReduxSubDirectories,
-  },
+
+    fileIdToFile: {},
+    directoryToChildrenMap: {},
+  } as IFileSliceState,
   reducers: filesReducers,
 });
 
-export const { setSubDirectory, setCurrentFile, setFiles, setCurrentView } =
-  filesSlice.actions;
+export const {
+  setSubDirectory,
+  setCurrentFile,
+  setFiles,
+  setCurrentView,
+
+  setDirectoryToChildrenMap,
+  setFileIdToFileModel,
+} = filesSlice.actions;
 
 export const getFiles = (state: RootState) => state.files.files;
 export const getSubDirectories = (state: RootState) =>
