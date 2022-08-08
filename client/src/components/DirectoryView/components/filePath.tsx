@@ -6,7 +6,6 @@ import {
   faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch } from "@hooks/redux.hooks";
 import {
   ActionMenuActionType,
   ActionMenuMenuType,
@@ -16,25 +15,17 @@ import {
 } from "contexts/actionMenu.provider";
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ISetCurrentFilePayload } from "reducers/files.reducer";
-import { setCurrentFile } from "reducers/files.slice";
+import FilePathViewModel from "./filePath.viewModel";
 
 interface FilePathProps {
   filePath: IFileModel[];
 }
 const FilePath = ({ filePath }: FilePathProps): JSX.Element => {
-  const dispatch = useAppDispatch();
+  const { _api } = FilePathViewModel();
 
   return (
     <div className={`flex flex-row flex-1 items-center`}>
-      <Link
-        to="/my-files"
-        onClick={() => {
-          dispatch(
-            setCurrentFile({ fileId: "root" } as ISetCurrentFilePayload)
-          );
-        }}
-      >
+      <Link to="/my-files" onClick={() => _api.filePathItemOnClick("root")}>
         <span className={`flex flex-row`}>
           <div
             className={`py-3 pl-3 rounded-lg text-violet-500 flex items-center justify-center`}
