@@ -3,19 +3,17 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Link } from "react-router-dom";
 import FileSystemNavbarItemViewModel from "./fileSystemNavbarItem.viewModel";
-import ItemContainer from "./itemContainer";
+import ItemContainer, { FSItemContainer } from "./itemContainer";
 import { faFolder } from "@fortawesome/free-regular-svg-icons";
 import { IFileModel } from "@data/files/model";
 
 const FileSystemNavbarItem = ({
   fileId,
   title,
-  icon,
   tier,
   isParentDropdownExpanded,
   last,
   tierDisplay,
-  isActive,
 }: any) => {
   const { _api, _state, _data } = FileSystemNavbarItemViewModel({
     fileId,
@@ -28,14 +26,14 @@ const FileSystemNavbarItem = ({
 
   return (
     <>
-      <ItemContainer>
+      <FSItemContainer>
         <div className={`relative`}>
-          {/* <FileSystemTreeLine
-            tier={tier}
-            last={last}
-            tierDisplay={tierDisplay}
-          /> */}
-          <span className={`flex`}>
+          <FileSystemTreeLine
+            tier={tier ?? 0}
+            last={last ?? false}
+            tierDisplay={tierDisplay ?? {}}
+          />
+          <span className={`flex px-3 py-2`}>
             <Link
               className={`flex flex-1 cursor-pointer ${
                 tier > 0 ? "pl-" + tier * 4 : ""
@@ -44,7 +42,7 @@ const FileSystemNavbarItem = ({
                   ? "text-gray-50 font-semibold"
                   : "font-normal"
               }`}
-              to={`/my-files${fileId !== "root" ? "/" + fileId : ""}`}
+              to={_data.linkto}
               onClick={() => _api.directoryOnClick(fileId)}
             >
               <span className={"mr-3"}>
@@ -64,18 +62,26 @@ const FileSystemNavbarItem = ({
             </span>
           </span>
         </div>
-      </ItemContainer>
+      </FSItemContainer>
 
       <div className={`${_state.isDropdownExpanded ? "" : "hidden"}`}>
         {_data.subDirectories.loading ? (
           <ItemContainer>Loading</ItemContainer>
         ) : (
           _data.subDirectories.obj?.map((file: IFileModel, i: number) => {
+            let tempTierDisplay = { ...tierDisplay };
+            let isLastInDir = i + 1 === _data.subDirectories.obj?.length;
+            if (tier + 1 > 0) {
+              tempTierDisplay[tier + 1] = !isLastInDir;
+            }
             return (
               <FileSystemNavbarItem
                 key={i}
                 fileId={file.fileId}
                 isParentDropdownExpanded={_state.isDropdownExpanded}
+                tier={tier + 1}
+                last={isLastInDir}
+                tierDisplay={tempTierDisplay}
               />
             );
           })

@@ -53,11 +53,12 @@ export const {
 } = filesSlice.actions;
 
 export const getActiveDirectoryFileId = (state: RootState) => {
-  // console.log(state.files);
   return state.files.activeDirectoryFileId;
 };
 export const getActiveDirectoryFilePath = (state: RootState) =>
-  state.files.activeDirectoryFilePath;
+  state.files.activeDirectoryFilePath.map(
+    (fileId) => state.files.fileIdToFile[fileId]
+  );
 export const getChildrenDirectoriesByFileId =
   (fileId: string) => (state: RootState) => {
     if (!!state.files.directoryToChildrenMap[fileId]) {

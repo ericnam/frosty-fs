@@ -1,10 +1,7 @@
 import { IFileModel } from "@data/files/model";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import { useEffect, useState } from "react";
-import {
-  getActiveDirectoryFileId,
-  getChildrenDirectoriesByFileId,
-} from "reducers/files.slice";
+import { getActiveDirectoryFileId } from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 import FileService from "services/files.service";
 
@@ -18,9 +15,6 @@ const FileSystemNavbarItemViewModel = ({
   // Redux
   const dispatch = useAppDispatch();
   const activeDirectoryFileId = useAppSelector(getActiveDirectoryFileId);
-  const childrenDirectories: IFileModel[] = useAppSelector(
-    getChildrenDirectoriesByFileId(fileId)
-  );
 
   // State
   const [loading, setLoading] = useState(true);
@@ -78,7 +72,7 @@ const FileSystemNavbarItemViewModel = ({
 
   return {
     _api: { directoryOnClick, setIsDropdownExpanded },
-    _state: { isNavbarItemActive, isDropdownExpanded, childrenDirectories },
+    _state: { isNavbarItemActive, isDropdownExpanded },
     _data: {
       file: {
         loading: loading,
@@ -88,6 +82,7 @@ const FileSystemNavbarItemViewModel = ({
         loading: subDirectoriesLoading,
         obj: subDirectoryFileModels,
       },
+      linkto: `/my-files${fileId !== "root" ? "/" + fileId : ""}`,
     },
   };
 };

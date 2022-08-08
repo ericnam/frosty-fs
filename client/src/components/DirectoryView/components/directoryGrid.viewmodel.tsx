@@ -1,7 +1,10 @@
 import { IFileModel } from "@data/files/model";
 import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import { useEffect, useState } from "react";
-import { getActiveDirectoryFileId } from "reducers/files.slice";
+import {
+  getActiveDirectoryFileId,
+  getActiveDirectoryFilePath,
+} from "reducers/files.slice";
 import FilesRepository from "repositories/files.repository";
 import { useNavigate, useParams } from "react-router-dom";
 import FileService from "services/files.service";
@@ -15,6 +18,7 @@ const DirectoryGridViewModel = () => {
   const dispatch = useAppDispatch();
   const [gridData, setGridData] = useState<IFileModel[]>();
   const activeDirectoryFileId = useAppSelector(getActiveDirectoryFileId);
+  const activeDirectoryFilePath = useAppSelector(getActiveDirectoryFilePath);
 
   // States
   const [gridLoading, setGridLoading] = useState(true);
@@ -45,7 +49,6 @@ const DirectoryGridViewModel = () => {
     }
 
     if (!!activeDirectoryFileId) {
-      console.log("hi");
       fileService.GetFilesByFileIds({ ids: [activeDirectoryFileId] });
       fileService
         .GetChildrenFilesByFileId({ fileId: activeDirectoryFileId })
@@ -57,9 +60,10 @@ const DirectoryGridViewModel = () => {
   }, [activeDirectoryFileId]);
 
   return {
-    _data: { grid: { obj: gridData, loading: gridLoading } },
-    data: gridData,
-    // loading: qGetDirectoryContent.loading,
+    _data: {
+      grid: { obj: gridData, loading: gridLoading },
+      filePath: { obj: activeDirectoryFilePath },
+    },
   };
 };
 

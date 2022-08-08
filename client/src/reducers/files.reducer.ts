@@ -57,7 +57,6 @@ export interface ISetFileIdToFileModelPayload {
  */
 function setActiveDirectoryFileId(state: IFileSliceState, action: any) {
   let payload = action.payload as ISetActiveDirectoryFileIdPayload;
-  console.log(payload);
   state.activeDirectoryFileId = payload.fileId;
 }
 export interface ISetActiveDirectoryFileIdPayload {
@@ -82,9 +81,7 @@ function setActiveDirectoryFilePath(state: IFileSliceState, action: any) {
   if (filePathArr[filePathArr.length - 1] !== fileId) {
     let newFilePathArr = [];
     let file = current(state).fileIdToFile[fileId];
-    console.log(fileId);
-    console.log(current(state).fileIdToFile);
-
+    
     let parentId = file.parentId;
     newFilePathArr.unshift(fileId);
 
