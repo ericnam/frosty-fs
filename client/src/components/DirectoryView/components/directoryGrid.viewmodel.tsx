@@ -36,6 +36,7 @@ const DirectoryGridViewModel = () => {
     )
   );
 
+  // Effects
   useEffect(() => {
     if (activeDirectoryFileId !== id) {
       fileService.GetSubdirectoriesByFileId({ fileId: !!id ? id : "root" });
@@ -45,9 +46,8 @@ const DirectoryGridViewModel = () => {
   useEffect(() => {
     if (id !== activeDirectoryFileId && activeDirectoryFileId !== "root") {
       navigate(`/my-files/${activeDirectoryFileId}`);
-      return;
     }
-
+    
     if (!!activeDirectoryFileId) {
       fileService.GetFilesByFileIds({ ids: [activeDirectoryFileId] });
       fileService
