@@ -1,9 +1,21 @@
 import { GET_NAVIGATION, GET_NAVIGATION_TYPE } from "@data/navigation/query";
-import { RepositoryParam, RepositoryHOF } from "repositories";
+import { staticImplements, AsyncRepositoryHOF } from "repositories";
 
+/**
+ * Repository Interface
+ */
+interface INavigationRepository {}
+interface INavigationRepositoryStatic {
+  new (): INavigationRepository;
+  GetNavigationItems(): IGetNavigationItems;
+}
+
+export type IGetNavigationItems = (variables?: any) => Promise<any>;
+
+@staticImplements<INavigationRepositoryStatic>()
 class NavigationRepository {
-  static GetNavigation(param?: RepositoryParam) {
-    return RepositoryHOF(GET_NAVIGATION, GET_NAVIGATION_TYPE, param);
+  static GetNavigationItems(): IGetNavigationItems {
+    return AsyncRepositoryHOF(GET_NAVIGATION, GET_NAVIGATION_TYPE);
   }
 }
 

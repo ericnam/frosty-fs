@@ -1,52 +1,36 @@
 import { useState, useEffect } from "react";
-import { NavigationModel } from "@data/navigation/model";
-// import { FileSystemModel } from "@data/filesystem/model";
 import NavigationRepository from "repositories/navigation.repository";
-// import FilesRepository from "repositories/files.repository";
+import NavigationService, {
+  INavigationItemsBySection,
+} from "services/navigation.service";
 
 const NavigationViewModel = () => {
-  const [navigationData, setNavigationData] = useState<NavigationModel[]>();
-  // const [fileSystemData, setFileSystemData] = useState<FileSystemModel[]>();
+  const [navigationData, setNavigationData] =
+    useState<INavigationItemsBySection>();
 
   // Gql queries
-  const qGetNavigation = NavigationRepository.GetNavigation({
-    onLoad: (data: any) => {
-      setNavigationData(
-        data.map((gqlObj: any) => {
-          return new NavigationModel(gqlObj);
-        })
-      );
-    },
-  });
-  // const qGetDirectories = FilesRepository.GetDirectories({
-  //   onLoad: (data: any) => {
-  //     setFileSystemData(
-  //       data.map((gqlObj: any) => {
-  //         return new FileSystemModel(gqlObj);
-  //       })
-  //     );
-  //   },
-  // });
+  const _GetNavigationItems = NavigationRepository.GetNavigationItems();
 
-  /**
-   * API
-   */
-  function getDirectory(directoryId: string) {
-    return directoryId;
-  }
+  // Services
+  const [navigationService] = useState(
+    new NavigationService({ _GetNavigationItems })
+  );
 
   // Load Initial Data
   useEffect(() => {
-    qGetNavigation.api.get();
-    // qGetDirectories.api.get({ directoryId: "root" });
+    navigationService
+      .GetNavigationItemsBySection()
+      ?.then((navItemsBySection: INavigationItemsBySection) => {
+        setNavigationData(navItemsBySection);
+      });
   }, []);
 
   return {
     data: {
+      navigationItemsBySection: !!navigationData ? navigationData : null,
       navigation: { loading: false, data: navigationData },
       // fileSystem: { loading: false, data: fileSystemData },
     },
-    api: { getDirectory },
   };
 };
 

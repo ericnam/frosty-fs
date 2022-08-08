@@ -7,11 +7,7 @@ const NavigationComponent = (): JSX.Element => {
 
   return (
     <div className={"flex flex-row"}>
-      {/* <MiniBar /> */}
-      <Navbar
-        loading={data.navigation.loading}
-        navigation={data.navigation.data}
-      />
+      <Navbar navigationItemsBySection={data.navigationItemsBySection} />
     </div>
   );
 };

@@ -12,7 +12,7 @@ import {
 } from "contexts/actionMenu.provider";
 import UserProfileAndSettings from "@components/UserProfileAndSettings";
 import FileTypeView from "@components/FileTypeView";
-import FileService from "services/files.services";
+import FileService from "services/files.service";
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();

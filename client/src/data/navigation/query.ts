@@ -7,6 +7,8 @@ export const GET_NAVIGATION = gql`
       title
       dropDown
       route
+      section
+      isFileSystem
     }
   }
 `;

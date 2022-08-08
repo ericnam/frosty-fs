@@ -1,24 +1,106 @@
 import { NavigationModel } from "@data/navigation/model";
-import {
-  faSnowflake,
-  IconDefinition,
-} from "@fortawesome/free-regular-svg-icons";
+import { faSnowflake } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
-import DashboardNavbarItem from "./navbar.dashboard";
-import FileSystemNavbarItem from "./navbar.fileSystem";
+import FileSystemNavbarItem from "./fileSystemNavbarItem";
 import { useEffect, useState } from "react";
+import { INavigationItemsBySection } from "services/navigation.service";
+import ItemContainer from "./itemContainer";
 
 interface NavbarParam {
-  loading: boolean;
-  navigation: NavigationModel[] | undefined;
+  navigationItemsBySection?: INavigationItemsBySection | null;
 }
 
-const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
+const Navbar = ({ navigationItemsBySection }: NavbarParam): JSX.Element => {
+  const location = useLocation();
+  const [fileTabOpen, setFileTabOpen] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname.includes("my-files")) {
+      setFileTabOpen(true);
+    }
+  }, [location.pathname]);
+
   return (
     <div className={"w-80 h-screen bg-gray-900 text-white"}>
+      <NavbarHeader />
+      {!!navigationItemsBySection
+        ? Object.keys(navigationItemsBySection).map((section: any, index_1) => {
+            let navigationItems = navigationItemsBySection[section as number];
+            return (
+              <span key={index_1}>
+                {navigationItems.map((navigationItem, index_2) => {
+                  if (navigationItem.isFileSystem) {
+                    return (
+                      <span key={index_1 + index_2}>
+                        <FileSystemNavbarItem
+                          title={navigationItem.title}
+                          // icon={navigationItem.icon}
+                          fileId={"root"}
+                          tier={0}
+                          isActive={fileTabOpen}
+                          isParentDropdownExpanded={true}
+                          tierDisplay={{}}
+                        />
+                      </span>
+                    );
+                  } else {
+                    return (
+                      <span key={index_1 + index_2}>
+                        <NavbarItem navigationItem={navigationItem} />
+                      </span>
+                    );
+                  }
+                })}
+                {index_1 !==
+                Object.keys(navigationItemsBySection).length - 1 ? (
+                  <SectionDivider key={`divider_${index_1}`} />
+                ) : null}
+              </span>
+            );
+          })
+        : null}
+    </div>
+  );
+};
+
+const NavbarItem = ({
+  navigationItem,
+}: {
+  navigationItem: NavigationModel;
+}) => {
+  return (
+    <Link to={`/${navigationItem.route}`}>
+      <ItemContainer>
+        <span className={`mr-3`}>
+          <FontAwesomeIcon icon={navigationItem.icon as IconProp} />
+        </span>
+        <span
+          className={
+            location.pathname === `/${navigationItem.route}`
+              ? "font-semibold text-gray-50"
+              : "font-normal"
+          }
+        >
+          {navigationItem.title}
+        </span>
+        {navigationItem.dropDown ? (
+          <span className={"float-right"}>
+            <FontAwesomeIcon icon={faAngleDown as IconProp} />
+          </span>
+        ) : (
+          false
+        )}
+      </ItemContainer>
+    </Link>
+  );
+};
+
+const NavbarHeader = (): JSX.Element => {
+  return (
+    <>
       <Link to={"/my-files"}>
         <div className={`mx-8 mt-8 mb-12 flex`}>
           <span
@@ -29,140 +111,12 @@ const Navbar = ({ loading, navigation }: NavbarParam): JSX.Element => {
           <span className={`text-xl font-semibold`}>Frosty FS</span>
         </div>
       </Link>
-      {/* 
-      {!loading && !!navigation
-        ? navigation!
-            .filter((e) => e.title === "Dashboard")
-            .map((navigation, i) => {
-              return (
-                <div className={`my-2`}>
-                  <NavbarItem
-                    key={i}
-                    title={navigation.title}
-                    icon={navigation.icon}
-                    dropDown={navigation.dropDown}
-                    route={navigation.route}
-                  />
-                </div>
-              );
-            })
-        : false} */}
-      {/* <div className="my-8 border-t w-full h-1"></div> */}
-      {!loading && !!navigation
-        ? navigation!
-            .filter((e) => e.title === "My Files")
-            .map((navigation, i) => {
-              return (
-                <div key={i} className={`my-2`}>
-                  <NavbarItem
-                    key={i}
-                    title={navigation.title}
-                    icon={navigation.icon}
-                    dropDown={navigation.dropDown}
-                    route={navigation.route}
-                  />
-                </div>
-              );
-            })
-        : false}
-      <div className="my-6 border-t border-gray-800 w-full h-1"></div>
-      {!loading && !!navigation
-        ? navigation!
-            .filter((e) => e.title !== "My Files" && e.title !== "Dashboard")
-            .map((navigation, i) => {
-              return (
-                <div key={i}>
-                  <NavbarItem
-                    key={i}
-                    title={navigation.title}
-                    icon={navigation.icon}
-                    dropDown={navigation.dropDown}
-                    route={navigation.route}
-                  />
-                </div>
-              );
-            })
-        : false}
-    </div>
+    </>
   );
 };
 
-export interface NavbarItemParam {
-  title: string;
-  icon: IconDefinition;
-  dropDown?: boolean;
-  route?: string;
-  fileSystem?: any;
-}
-
-const NavbarItem = ({
-  title,
-  icon,
-  dropDown,
-  route,
-}: NavbarItemParam): JSX.Element => {
-  let iconColor = "";
-  const location = useLocation();
-  const [fileTabOpen, setFileTabOpen] = useState(false);
-
-  useEffect(() => {
-    if (location.pathname.includes("my-files")) {
-      setFileTabOpen(true);
-    }
-  }, [location.pathname]);
-
-  switch (title) {
-    case "Dashboard":
-      return (
-        <Link to={`/${route}`}>
-          <DashboardNavbarItem
-            title={title}
-            icon={icon}
-            storageUsed={5000000000}
-            storageAvailable={16106127360}
-          />
-        </Link>
-      );
-    case "My Files":
-      return (
-        <FileSystemNavbarItem
-          title={title}
-          icon={icon}
-          fileId={"root"}
-          tier={0}
-          isActive={fileTabOpen}
-          tierDisplay={{}}
-        />
-      );
-    default:
-      return (
-        <Link to={`/${route}`}>
-          <div
-            className={
-              "text-slate-300 hover:bg-gray-800 my-2 mx-6 px-3 py-2 rounded-lg font-sans text-sm cursor-pointer"
-            }
-          >
-            <span className={`mr-3 ${iconColor}`}>
-              <FontAwesomeIcon icon={icon as IconProp} />
-            </span>
-            <span
-              className={
-                location.pathname === `/${route}` ? "font-semibold text-gray-50" : "font-normal"
-              }
-            >
-              {title}
-            </span>
-            {dropDown ? (
-              <span className={"float-right"}>
-                <FontAwesomeIcon icon={faAngleDown as IconProp} />
-              </span>
-            ) : (
-              false
-            )}
-          </div>
-        </Link>
-      );
-  }
+const SectionDivider = (): JSX.Element => {
+  return <div className="my-6 border-t border-gray-800 w-full h-1"></div>;
 };
 
 export default Navbar;

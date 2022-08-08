@@ -14,6 +14,8 @@ interface INavigationModel {
   dropDown: boolean;
   icon: IconDefinition;
   route: string;
+  section: number;
+  isFileSystem: boolean;
 }
 
 class NavigationModel implements INavigationModel {
@@ -21,11 +23,15 @@ class NavigationModel implements INavigationModel {
   dropDown: boolean;
   icon: IconDefinition;
   route: string;
+  section: number;
+  isFileSystem: boolean;
 
   constructor(gqlObject: any) {
     this.title = gqlObject.title;
     this.dropDown = gqlObject.dropDown;
     this.route = gqlObject.route;
+    this.section = gqlObject.section;
+    this.isFileSystem = gqlObject.isFileSystem;
 
     switch (gqlObject.title) {
       case "Dashboard":

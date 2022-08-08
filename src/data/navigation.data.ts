@@ -1,33 +1,41 @@
 const navigationData = [
-  {
-    title: "Dashboard",
-    sortOrder: 1,
-    dropDown: false,
-    route: "dashboard",
-  },
+  // {
+  //   title: "Dashboard",
+  //   sortOrder: 1,
+  //   dropDown: false,
+  //   route: "dashboard",
+  // },
   {
     title: "My Files",
-    sortOrder: 3,
+    sortOrder: 1,
     dropDown: true,
     route: "my-files",
+    section: 1,
+    isFileSystem: true,
   },
   {
     title: "Favorites",
-    sortOrder: 2,
+    sortOrder: 1,
     dropDown: false,
     route: "favorites",
+    section: 2,
+    isFileSystem: false,
   },
   {
     title: "Recents",
     sortOrder: 2,
     dropDown: false,
     route: "recents",
+    section: 2,
+    isFileSystem: false,
   },
   {
     title: "Trash",
-    sortOrder: 2,
+    sortOrder: 3,
     dropDown: false,
     route: "trash",
+    section: 2,
+    isFileSystem: false,
   },
 ];
 

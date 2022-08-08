@@ -17,16 +17,17 @@ function setSubDirectory(state: any, action: any) {
  * @param action
  */
 function setDirectoryToChildrenMap(state: IFileSliceState, action: any) {
-  let payload = action.payload as ISetDirectoryToChildrenMapPayload;
-  let map: { [key: string]: boolean | undefined } = {};
+  let { fileId, childrenMapFileIdArr } =
+    action.payload as ISetDirectoryToChildrenMapPayload;
+  let map: { [key: string]: boolean } = {};
 
-  for (let childMap of payload.childrenMapFileIdArr) {
-    if (!map.hasOwnProperty(childMap)) {
-      map[childMap] = true;
+  for (let childFileId of childrenMapFileIdArr) {
+    if (!map.hasOwnProperty(childFileId)) {
+      map[childFileId] = true;
     }
   }
 
-  state.directoryToChildrenMap[payload.fileId] = map;
+  state.directoryToChildrenMap[fileId] = map;
 }
 export interface ISetDirectoryToChildrenMapPayload {
   fileId: string;
@@ -49,38 +50,83 @@ export interface ISetFileIdToFileModelPayload {
   files: IFileModel[];
 }
 
+/**
+ * Set current directory file id
+ * @param state
+ * @param action
+ */
+function setActiveDirectoryFileId(state: IFileSliceState, action: any) {
+  let payload = action.payload as ISetActiveDirectoryFileIdPayload;
+  console.log(payload);
+  state.activeDirectoryFileId = payload.fileId;
+}
+export interface ISetActiveDirectoryFileIdPayload {
+  fileId: string;
+}
+
+/**
+ * Set file path using provided file id
+ * @param state
+ * @param action
+ * @returns
+ */
+function setActiveDirectoryFilePath(state: IFileSliceState, action: any) {
+  let { fileId } = action.payload as ISetActiveDirectoryFileIdPayload;
+
+  if (fileId === "root") {
+    state.activeDirectoryFilePath = [];
+    return;
+  }
+
+  let filePathArr = current(state).activeDirectoryFilePath;
+  if (filePathArr[filePathArr.length - 1] !== fileId) {
+    let newFilePathArr = [];
+    let file = current(state).fileIdToFile[fileId];
+    console.log(fileId);
+    console.log(current(state).fileIdToFile);
+
+    let parentId = file.parentId;
+    newFilePathArr.unshift(fileId);
+
+    while (parentId !== "root") {
+      let tempFile = current(state).fileIdToFile[parentId];
+      newFilePathArr.unshift(tempFile.fileId);
+      parentId = tempFile.parentId;
+    }
+
+    state.activeDirectoryFilePath = newFilePathArr;
+  }
+}
+export interface ISetActiveDirectoryFilePathPayload {
+  fileId: string;
+}
+
 export interface ISetCurrentFilePayload {
   fileId: string;
 }
 function setCurrentFile(state: any, action: any) {
-  let payload = action.payload as ISetCurrentFilePayload;
-  state.currentFileId = payload.fileId;
-
-  setFilePath(payload.fileId);
-
-  function setFilePath(fileId: string) {
-    if (fileId === "root") {
-      state.filePath = [];
-      return;
-    }
-
-    let filePathArr = current(state).filePath;
-    if (filePathArr[filePathArr.length - 1] !== fileId) {
-      let newFilePathArr = [];
-      let file = current(state).files[fileId];
-
-      let parentId = file.parentId;
-      newFilePathArr.unshift(fileId);
-
-      while (parentId !== "root") {
-        let tempFile = current(state).files[parentId];
-        newFilePathArr.unshift(tempFile.fileId);
-        parentId = tempFile.parentId;
-      }
-
-      state.filePath = newFilePathArr;
-    }
-  }
+  // let payload = action.payload as ISetCurrentFilePayload;
+  // state.currentFileId = payload.fileId;
+  // setFilePath(payload.fileId);
+  // function setFilePath(fileId: string) {
+  //   if (fileId === "root") {
+  //     state.filePath = [];
+  //     return;
+  //   }
+  //   let filePathArr = current(state).filePath;
+  //   if (filePathArr[filePathArr.length - 1] !== fileId) {
+  //     let newFilePathArr = [];
+  //     let file = current(state).files[fileId];
+  //     let parentId = file.parentId;
+  //     newFilePathArr.unshift(fileId);
+  //     while (parentId !== "root") {
+  //       let tempFile = current(state).files[parentId];
+  //       newFilePathArr.unshift(tempFile.fileId);
+  //       parentId = tempFile.parentId;
+  //     }
+  //     state.filePath = newFilePathArr;
+  //   }
+  // }
 }
 
 export interface ISetFilesPayload {
@@ -112,4 +158,6 @@ export default {
 
   setDirectoryToChildrenMap,
   setFileIdToFileModel,
+  setActiveDirectoryFileId,
+  setActiveDirectoryFilePath,
 };

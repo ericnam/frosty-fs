@@ -15,14 +15,8 @@ import {
   RepositoryParam,
   RepositoryHOF,
   AsyncRepositoryHOF,
+  staticImplements,
 } from "repositories";
-
-/* class decorator */
-function staticImplements<T>() {
-  return <U extends T>(constructor: U) => {
-    constructor;
-  };
-}
 
 /**
  * Repository Interface

@@ -2,6 +2,8 @@ import { IFileModel } from "@data/files/model";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { ISetFileIdToFileModelPayload } from "reducers/files.reducer";
 import {
+  setActiveDirectoryFileId,
+  setActiveDirectoryFilePath,
   setDirectoryToChildrenMap,
   setFileIdToFileModel,
 } from "reducers/files.slice";
@@ -40,11 +42,15 @@ class FileService {
    *
    * @param variables
    */
-  GetSubdirectoriesByFileId(variables: { fileId: string }): void {
-    this.queries
+  GetSubdirectoriesByFileId(variables: {
+    fileId: string;
+  }): Promise<any> | undefined {
+    return this.queries
       ._GetDirectories?.({ directoryId: variables.fileId })
-      .then((data: string[]) => {
-        this.SetSubdirectoriesByFileId(variables.fileId, data);
+      .then((data: IFileModel[]) => {
+        let fileIds = data.map((d) => d.fileId);
+        this.SetSubdirectoriesByFileId(variables.fileId, fileIds);
+        return fileIds;
       });
   }
 
@@ -52,13 +58,14 @@ class FileService {
    *
    * @param variables
    */
-  GetFilesByFileIds(variables: { ids: string[] }): void {
-    this.queries
+  GetFilesByFileIds(variables: { ids: string[] }): Promise<any> | undefined {
+    return this.queries
       ._GetFilesByFileIds?.({ ids: variables.ids })
       .then((data: IFileModel[]) => {
         this.dispatch?.(
           setFileIdToFileModel({ files: data } as ISetFileIdToFileModelPayload)
         );
+        return data;
       });
   }
 
@@ -93,9 +100,24 @@ class FileService {
   }
 
   /**
+   * When a directory is selected, set the state
+   * to have it as the current active directory
+   * @param fileId
+   */
+  SetActiveDirectoryFileId(fileId: string) {
+    this.dispatch?.(setActiveDirectoryFileId({ fileId }));
+    // dispatch new filepath by new file id
+    this.SetFilePathOfActiveDirectoryFileId(fileId);
+  }
+
+  SetFilePathOfActiveDirectoryFileId(fileId: string) {
+    this.dispatch?.(setActiveDirectoryFilePath({ fileId }));
+  }
+
+  /**
    * Dispatch to redux file subdirectories by parent file id
-   * @param fileId 
-   * @param childrenMapFileIdArr 
+   * @param fileId
+   * @param childrenMapFileIdArr
    */
   private SetSubdirectoriesByFileId(
     fileId: string,

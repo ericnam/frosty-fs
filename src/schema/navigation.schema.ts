@@ -6,6 +6,8 @@ const navigationTypeDefs = gql`
     sortOrder: Int
     dropDown: Boolean
     route: String
+    section: Int
+    isFileSystem: Boolean
   }
 
   extend type Query {

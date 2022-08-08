@@ -17,9 +17,11 @@ export interface IFileSliceState {
   subDirectories: IReduxSubDirectories;
 
   directoryToChildrenMap: {
-    [key: string]: { [key: string]: boolean | undefined };
+    [key: string]: { [key: string]: boolean };
   };
   fileIdToFile: { [key: string]: IFileModel };
+  activeDirectoryFileId: string;
+  activeDirectoryFilePath: string[];
 }
 export const filesSlice = createSlice({
   name: "files",
@@ -32,6 +34,8 @@ export const filesSlice = createSlice({
 
     fileIdToFile: {},
     directoryToChildrenMap: {},
+    activeDirectoryFileId: "",
+    activeDirectoryFilePath: [],
   } as IFileSliceState,
   reducers: filesReducers,
 });
@@ -44,7 +48,30 @@ export const {
 
   setDirectoryToChildrenMap,
   setFileIdToFileModel,
+  setActiveDirectoryFilePath,
+  setActiveDirectoryFileId,
 } = filesSlice.actions;
+
+export const getActiveDirectoryFileId = (state: RootState) => {
+  // console.log(state.files);
+  return state.files.activeDirectoryFileId;
+};
+export const getActiveDirectoryFilePath = (state: RootState) =>
+  state.files.activeDirectoryFilePath;
+export const getChildrenDirectoriesByFileId =
+  (fileId: string) => (state: RootState) => {
+    if (!!state.files.directoryToChildrenMap[fileId]) {
+      return Object.keys(state.files.directoryToChildrenMap[fileId]).map(
+        (fileId) => {
+          return state.files.fileIdToFile[fileId];
+        }
+      );
+    }
+    return [];
+  };
+export const getFileModelByFileId = (fileId: string) => (state: RootState) => {
+  return state.files.fileIdToFile[fileId];
+};
 
 export const getFiles = (state: RootState) => state.files.files;
 export const getSubDirectories = (state: RootState) =>

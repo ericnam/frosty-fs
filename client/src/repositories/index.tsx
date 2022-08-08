@@ -53,4 +53,11 @@ function AsyncRepositoryHOF(gqlQuery: DocumentNode, dataType: string) {
   };
 }
 
-export { RepositoryHOF, RepositoryParam, AsyncRepositoryHOF };
+/* class decorator */
+function staticImplements<T>() {
+  return <U extends T>(constructor: U) => {
+    constructor;
+  };
+}
+
+export { RepositoryHOF, RepositoryParam, AsyncRepositoryHOF, staticImplements };
