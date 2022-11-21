@@ -1,5 +1,6 @@
 import { IFileModel } from "@data/files/model";
 import { createSlice } from "@reduxjs/toolkit";
+// import { staticImplements } from "repositories";
 import { RootState } from "store";
 import filesReducers from "./files.reducer";
 
@@ -22,6 +23,7 @@ export interface IFileSliceState {
   fileIdToFile: { [key: string]: IFileModel };
   activeDirectoryFileId: string;
   activeDirectoryFilePath: string[];
+  selectedFileModels: IFileModel[];
 }
 export const filesSlice = createSlice({
   name: "files",
@@ -36,6 +38,7 @@ export const filesSlice = createSlice({
     directoryToChildrenMap: {},
     activeDirectoryFileId: "",
     activeDirectoryFilePath: [],
+    selectedFileModels: [],
   } as IFileSliceState,
   reducers: filesReducers,
 });
@@ -50,6 +53,8 @@ export const {
   setFileIdToFileModel,
   setActiveDirectoryFilePath,
   setActiveDirectoryFileId,
+  setSelectedFileModels,
+  setFavoriteFilesByFileIds,
 } = filesSlice.actions;
 
 export const getActiveDirectoryFileId = (state: RootState) => {
@@ -59,6 +64,8 @@ export const getActiveDirectoryFilePath = (state: RootState) =>
   state.files.activeDirectoryFilePath.map(
     (fileId) => state.files.fileIdToFile[fileId]
   );
+export const getSelectedFileModels = (state: RootState) =>
+  state.files.selectedFileModels;
 export const getChildrenDirectoriesByFileId =
   (fileId: string) => (state: RootState) => {
     if (!!state.files.directoryToChildrenMap[fileId]) {

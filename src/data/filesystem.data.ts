@@ -1,4 +1,4 @@
-const fileSystemData = [
+let fileSystemData = [
   {
     fileId: "root",
     title: "root",

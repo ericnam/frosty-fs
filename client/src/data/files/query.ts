@@ -5,6 +5,7 @@ export const GET_DIRECTORIES = gql`
   query GetSubDirectories($directoryId: String) {
     ${GET_DIRECTORIES_TYPE}(directoryId: $directoryId) {
       fileId
+      title
     }
   }
 `;
@@ -19,7 +20,16 @@ export const GET_DIRECTORY_CONTENT = gql`
       parentId
       fileSize
       lastUpdated
+      favorite
+      trash
     }
+  }
+`;
+
+export const SET_FAVORITES_TYPE = "setFavorites";
+export const SET_FAVORITES = gql`
+  mutation SetFavorites($favoriteFlag: Boolean, $fileIds: [String]) {
+    ${SET_FAVORITES_TYPE}(favoriteFlag: $favoriteFlag, fileIds: $fileIds) 
   }
 `;
 
@@ -33,6 +43,8 @@ export const GET_FILES = gql`
       parentId
       fileSize
       lastUpdated
+      favorite
+      trash
     }
   }
 `;
@@ -47,6 +59,8 @@ export const GET_FAVORITES = gql`
       parentId
       fileSize
       lastUpdated
+      favorite
+      trash
     }
   }
 `;
@@ -61,6 +75,8 @@ export const GET_RECENT = gql`
       parentId
       fileSize
       lastUpdated
+      favorite
+      trash
     }
   }
 `;

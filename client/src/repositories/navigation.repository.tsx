@@ -1,22 +1,31 @@
-import { GET_NAVIGATION, GET_NAVIGATION_TYPE } from "@data/navigation/query";
-import { staticImplements, AsyncRepositoryHOF } from "repositories";
+// import { ApolloError } from "@apollo/client";
+// import { GET_NAVIGATION, GET_NAVIGATION_TYPE } from "@data/navigation/query";
+// import { staticImplements, AsyncRepositoryHOF2 } from "repositories";
 
-/**
- * Repository Interface
- */
-interface INavigationRepository {}
-interface INavigationRepositoryStatic {
-  new (): INavigationRepository;
-  GetNavigationItems(): IGetNavigationItems;
-}
 
-export type IGetNavigationItems = (variables?: any) => Promise<any>;
+// /**
+//  * Repository Interface
+//  */
+// interface INavigationRepository {}
+// interface INavigationRepositoryStatic {
+//   new (): INavigationRepository;
+//   GetNavigationItems(): IApolloResponse;
+// }
 
-@staticImplements<INavigationRepositoryStatic>()
-class NavigationRepository {
-  static GetNavigationItems(): IGetNavigationItems {
-    return AsyncRepositoryHOF(GET_NAVIGATION, GET_NAVIGATION_TYPE);
-  }
-}
+// export type IGetNavigationItems = (variables?: any) => IApolloResponse;
+// // Promise<any>;
+// export type IApolloResponse = {
+//   loading: boolean;
+//   error: ApolloError | undefined;
+//   data: any;
+//   fetch: (variables: any) => void;
+// };
 
-export default NavigationRepository;
+// @staticImplements<INavigationRepositoryStatic>()
+// class NavigationRepository {
+//   static GetNavigationItems(): IApolloResponse {
+//     return AsyncRepositoryHOF2(GET_NAVIGATION, GET_NAVIGATION_TYPE);
+//   }
+// }
+
+// export default NavigationRepository;

@@ -81,7 +81,7 @@ function setActiveDirectoryFilePath(state: IFileSliceState, action: any) {
   if (filePathArr[filePathArr.length - 1] !== fileId) {
     let newFilePathArr = [];
     let file = current(state).fileIdToFile[fileId];
-    
+
     let parentId = file.parentId;
     newFilePathArr.unshift(fileId);
 
@@ -98,10 +98,45 @@ export interface ISetActiveDirectoryFilePathPayload {
   fileId: string;
 }
 
+/**
+ * Set selected file models through grid selection
+ * @param state
+ * @param action
+ */
+function setSelectedFileModels(state: IFileSliceState, action: any) {
+  let { files } = action.payload as ISetSelectedFileModelsPayload;
+  state.selectedFileModels = files;
+}
+export interface ISetSelectedFileModelsPayload {
+  files: IFileModel[];
+}
+
+/**
+ * Toggle favorite flag for file models
+ * @param state
+ * @param action
+ */
+function setFavoriteFilesByFileIds(state: IFileSliceState, action: any) {
+  let { fileIds, favoriteFlag } =
+    action.payload as ISetFavoriteFilesByFileIdsPayload;
+
+  if (fileIds.length > 0) {
+    for (let fileId of fileIds) {
+      state.fileIdToFile[fileId].favorite = favoriteFlag;
+    }
+  }
+}
+export interface ISetFavoriteFilesByFileIdsPayload {
+  fileIds: string[];
+  favoriteFlag: boolean;
+}
+
 export interface ISetCurrentFilePayload {
   fileId: string;
 }
-function setCurrentFile(state: any, action: any) {
+function setCurrentFile(
+  // state: any, action: any
+  ) {
   // let payload = action.payload as ISetCurrentFilePayload;
   // state.currentFileId = payload.fileId;
   // setFilePath(payload.fileId);
@@ -157,4 +192,6 @@ export default {
   setFileIdToFileModel,
   setActiveDirectoryFileId,
   setActiveDirectoryFilePath,
+  setSelectedFileModels,
+  setFavoriteFilesByFileIds,
 };

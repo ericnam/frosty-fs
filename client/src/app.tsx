@@ -1,39 +1,35 @@
-import NavigationComponent from "@components/Navigation";
-import { useContext, useEffect, useState } from "react";
+import NavigationComponent from "@layout/Navigation";
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useAppDispatch } from "@hooks/redux.hooks";
-import DirectoryView from "@components/DirectoryView";
-import FilesRepository from "repositories/files.repository";
-import SearchBar from "@components/SearchBar/index.searchbar";
+// import { useAppDispatch } from "@hooks/redux.hooks";
+// import FilesRepository from "repositories/files.repository";
 import ActionMenu from "@components/ActionMenu";
 import {
   ActionMenuActionType,
   ActionMenuStore,
 } from "contexts/actionMenu.provider";
-import UserProfileAndSettings from "@components/UserProfileAndSettings";
-import FileTypeView from "@components/FileTypeView";
-import FileService from "services/files.service";
+// import FileService from "services/files.service";
 
 const App = (): JSX.Element => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { actionMenuState, dispatchActionMenuState } =
     useContext(ActionMenuStore);
 
   // Gql Queries
-  const _GetDirectories = FilesRepository.GetDirectories();
+  // const _GetDirectories = FilesRepository.GetDirectories();
 
   // Services
-  const [fileService] = useState(
-    new FileService({ _GetDirectories }, dispatch)
-  );
+  // const [fileService] = useState(
+  //   new FileService({ _GetDirectories }, dispatch)
+  // );
 
   // Initial data load
-  useEffect(() => {
-    fileService.GetSubdirectoriesByFileId({ fileId: "root" });
-  }, []);
+  // useEffect(() => {
+  //   fileService.GetSubdirectoriesByFileId({ fileId: "root" });
+  // }, []);
 
   return (
-    <div>
+    <>
       <ActionMenu />
       <div
         onClick={() => {
@@ -45,8 +41,13 @@ const App = (): JSX.Element => {
         }}
         className={"z-0 relative flex flex-row"}
       >
-        <NavigationComponent />
-        <div
+        <Routes>
+          <Route element={<NavigationComponent />}>
+            <Route path='/*' element={<></>} ></Route>
+          </Route>
+        </Routes>
+
+        {/* <div
           className={`flex flex-col relative w-full m-8 mt-0`}
           style={{ minWidth: 800 }}
         >
@@ -63,9 +64,9 @@ const App = (): JSX.Element => {
               <Route path={"/my-files/:id"} element={<DirectoryView />}></Route>
             </Routes>
           </div>
-        </div>
+        </div> */}
       </div>
-    </div>
+    </>
   );
 };
 

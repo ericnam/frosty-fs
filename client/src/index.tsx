@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import "./styles/tailwind.css";
-import "./styles/grid.mermaid.css";
+// import "./styles/grid.mermaid.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 

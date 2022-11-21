@@ -13,7 +13,8 @@
       "@resolvers/*": ["resolvers/*"],
       "@schema/*": ["schema/*"]
     },
-    "experimentalDecorators":true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   },
   "exclude": ["./node_modules", "./client"]
 }

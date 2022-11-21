@@ -24,6 +24,10 @@ const fileSystemTypeDefs = gql`
     subDirectories(directoryId: String): [FileSystem]
     directoryContent(directoryId: String): [FileSystem]
   }
+
+  extend type Mutation {
+    setFavorites(favoriteFlag: Boolean, fileIds: [String]): [Boolean]
+  }
 `;
 
 export default fileSystemTypeDefs;

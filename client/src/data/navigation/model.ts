@@ -1,6 +1,5 @@
 import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
 import {
-  faChartBar,
   faClock,
   // faFile,
   faFolder,
@@ -9,13 +8,14 @@ import {
   faSnowflake,
 } from "@fortawesome/free-regular-svg-icons";
 
-interface INavigationModel {
+export interface INavigationModel {
   title: string;
   dropDown: boolean;
   icon: IconDefinition;
   route: string;
   section: number;
   isFileSystem: boolean;
+  directoryId: string | null;
 }
 
 class NavigationModel implements INavigationModel {
@@ -25,6 +25,7 @@ class NavigationModel implements INavigationModel {
   route: string;
   section: number;
   isFileSystem: boolean;
+  directoryId: string | null;
 
   constructor(gqlObject: any) {
     this.title = gqlObject.title;
@@ -32,6 +33,7 @@ class NavigationModel implements INavigationModel {
     this.route = gqlObject.route;
     this.section = gqlObject.section;
     this.isFileSystem = gqlObject.isFileSystem;
+    this.directoryId = gqlObject.directoryId ?? null;
 
     switch (gqlObject.title) {
       case "Dashboard":
@@ -39,6 +41,7 @@ class NavigationModel implements INavigationModel {
         break;
       case "My Files":
         this.icon = faFolder;
+        this.directoryId = "root";
         break;
       case "Favorites":
         this.icon = faStar;
@@ -50,7 +53,7 @@ class NavigationModel implements INavigationModel {
         this.icon = faTrashCan;
         break;
       default:
-        this.icon = faChartBar;
+        this.icon = faFolder;
         break;
     }
   }

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@hooks/redux.hooks";
 import {
   setSubDirectory,
   getSubDirectories,
-  setCurrentFile,
+  // setCurrentFile,
   setFiles,
   IReduxSubDirectories,
   getFilePath,
@@ -16,7 +16,7 @@ import {
 import FilesRepository from "repositories/files.repository";
 import { IFileModel } from "@data/files/model";
 import {
-  ISetCurrentFilePayload,
+  // ISetCurrentFilePayload,
   ISetFilesPayload,
   ISetSubDirectoryPayload,
 } from "reducers/files.reducer";
@@ -98,10 +98,10 @@ const FileSystemNavbarItem = ({
     qGetFiles({ ids: [fileId] }).then((data: IFileModel[]) => {
       dispatch(setFiles({ files: data } as ISetFilesPayload));
     });
-    dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
-    if (fileId === "root") {
-      setActive(true);
-    }
+    // dispatch(setCurrentFile({ fileId: fileId } as ISetCurrentFilePayload));
+    // if (fileId === "root") {
+    //   setActive(true);
+    // }
   }
 
   return (

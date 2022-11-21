@@ -7,6 +7,8 @@ export interface IFileModel {
   children: string[];
   content: string;
   active: boolean;
+  favorite: boolean;
+  trash: boolean;
   fileSize: string;
   lastUpdated: string;
 }
@@ -22,6 +24,8 @@ class FileModel implements IFileModel {
   active: boolean;
   fileSize: string;
   lastUpdated: string;
+  favorite: boolean;
+  trash: boolean;
 
   constructor(gqlObject?: any) {
     if (!!gqlObject) {
@@ -31,6 +35,8 @@ class FileModel implements IFileModel {
       this.type = gqlObject.type;
       this.extension = gqlObject.extension;
       this.children = gqlObject.children;
+      this.favorite = gqlObject.favorite;
+      this.trash = gqlObject.trash;
       this.content = gqlObject.content;
       this.fileSize = gqlObject.fileSize;
       this.lastUpdated = new Date(gqlObject.lastUpdated)
@@ -48,6 +54,8 @@ class FileModel implements IFileModel {
       this.content = "";
       this.fileSize = "";
       this.lastUpdated = "";
+      this.favorite = false;
+      this.trash = false;
       this.active = false;
     }
   }

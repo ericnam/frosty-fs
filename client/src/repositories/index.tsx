@@ -1,4 +1,9 @@
-import { QueryResult, useLazyQuery } from "@apollo/client";
+import {
+  FetchResult,
+  QueryResult,
+  useLazyQuery,
+  useMutation,
+} from "@apollo/client";
 import { DocumentNode } from "graphql";
 import { useEffect, useState } from "react";
 
@@ -40,6 +45,34 @@ function RepositoryHOF(
   return { api: { get }, data: gqlRes.data, loading: gqlRes.loading };
 }
 
+function AsyncRepositoryHOF2(gqlQuery: DocumentNode, dataType: string) {
+  // Apollo Query
+  const [gqlGet, { loading, error, data }] = useLazyQuery(gqlQuery, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  return [gqlGet, { loading, error, data }];
+
+  return {
+    loading,
+    error,
+    data,
+    fetch: (variables: any) => {
+      gqlGet({ variables: variables }).then(
+        (res: QueryResult) => res.data[dataType]
+      );
+    },
+  };
+
+  // return (variables: any) => {
+  //   gqlGet({ variables: variables }).then(
+  //     (res: QueryResult) => res.data[dataType]
+  //   );
+
+  //   return { loading, error, data };
+  // };
+}
+
 function AsyncRepositoryHOF(gqlQuery: DocumentNode, dataType: string) {
   // Apollo Query
   const [gqlGet] = useLazyQuery(gqlQuery, {
@@ -53,6 +86,15 @@ function AsyncRepositoryHOF(gqlQuery: DocumentNode, dataType: string) {
   };
 }
 
+function MutationHOF(gqlQuery: DocumentNode, dataType: string) {
+  const [gqlMutate] = useMutation(gqlQuery);
+  return (variables: any) => {
+    return gqlMutate({ variables }).then(
+      (res: FetchResult) => res.data?.[dataType]
+    );
+  };
+}
+
 /* class decorator */
 function staticImplements<T>() {
   return <U extends T>(constructor: U) => {
@@ -60,4 +102,34 @@ function staticImplements<T>() {
   };
 }
 
-export { RepositoryHOF, RepositoryParam, AsyncRepositoryHOF, staticImplements };
+function useLazyQuerySingleObj<IDataInterface>(
+  gqlQuery: DocumentNode,
+  gqlDataType: string
+) {
+  const [gqlGet, { loading, error, data }] = useLazyQuery(gqlQuery, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const executeQuery = (variables?: any) => {
+    gqlGet({ variables: variables });
+  };
+
+  return [
+    executeQuery,
+    {
+      loading,
+      error,
+      data: !!data ? (data[gqlDataType] as IDataInterface[]) : undefined,
+    },
+  ] as const;
+}
+
+export {
+  RepositoryHOF,
+  RepositoryParam,
+  MutationHOF,
+  AsyncRepositoryHOF,
+  AsyncRepositoryHOF2,
+  useLazyQuerySingleObj,
+  staticImplements,
+};

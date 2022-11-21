@@ -30,6 +30,10 @@ module.exports = merge(common, {
       },
       {
         test: /\.css$/,
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/ag-grid-community/styles"),
+        ],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -38,7 +42,7 @@ module.exports = merge(common, {
           "postcss-loader",
         ],
         sideEffects: true,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
       },
     ],
   },
@@ -48,7 +52,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.join(__dirname, "public/index.html")
+      template: path.join(__dirname, "public/index.html"),
     }),
     new HtmlWebpackInjectPreload({
       files: [

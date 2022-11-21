@@ -29,10 +29,12 @@
         "@assets/*": [ "assets/*" ],
         "@screens/*": [ "screens/*" ],
         "@content/*": [ "content/*" ],
+        "@queries/*": [ "queries/*" ],
         "@consts/*": [ "consts/*" ],
         "@hooks/*": [ "hooks/*" ],
         "@helpers/*": [ "helpers/*" ],
         "@data/*": [ "data/*" ],
+        "@layout/*": [ "layout/*" ],
       },
       "experimentalDecorators": true
     },

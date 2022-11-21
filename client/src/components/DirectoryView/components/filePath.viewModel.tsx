@@ -1,20 +1,20 @@
-import { useAppDispatch } from "@hooks/redux.hooks";
-import { useState } from "react";
-import FileService from "services/files.service";
+// import { useAppDispatch } from "@hooks/redux.hooks";
+// import { useState } from "react";
+// import FileService from "services/files.service";
 
-const FilePathViewModel = () => {
-  // Redux
-  const dispatch = useAppDispatch();
+// const FilePathViewModel = () => {
+//   // Redux
+//   const dispatch = useAppDispatch();
 
-  // Services
-  const [fileService] = useState(new FileService({}, dispatch));
+//   // Services
+//   const [fileService] = useState(new FileService({}, dispatch));
 
-  // Event Handlers
-  function filePathItemOnClick(fileId: string) {
-    fileService.SetActiveDirectoryFileId(fileId);
-  }
+//   // Event Handlers
+//   function filePathItemOnClick(fileId: string) {
+//     fileService.SetActiveDirectoryFileId(fileId);
+//   }
 
-  return { _api: { filePathItemOnClick } };
-};
+//   return { _api: { filePathItemOnClick } };
+// };
 
-export default FilePathViewModel;
+// export default FilePathViewModel;

@@ -9,6 +9,8 @@ import {
   GET_FILES_TYPE,
   GET_RECENT,
   GET_RECENT_TYPE,
+  SET_FAVORITES,
+  SET_FAVORITES_TYPE,
 } from "@data/files/query";
 
 import {
@@ -16,6 +18,7 @@ import {
   RepositoryHOF,
   AsyncRepositoryHOF,
   staticImplements,
+  MutationHOF,
 } from "repositories";
 
 /**
@@ -32,6 +35,7 @@ interface IFilesRepositoryStatic {
 export type IGetDirectories = (variables: any) => Promise<any>;
 export type IGetFilesByFileIds = (variables: any) => Promise<any>;
 export type IGetChildrenFilesByParentFileId = (variables: any) => Promise<any>;
+export type ISetFavoritesByFileIds = (variables: any) => Promise<any>;
 
 /**
  *
@@ -50,7 +54,7 @@ class FilesRepository {
    *
    * @returns
    */
-  static GetFilesByFileIds() {
+  static GetFilesByFileIds(): IGetFilesByFileIds {
     return AsyncRepositoryHOF(GET_FILES, GET_FILES_TYPE);
   }
 
@@ -58,11 +62,19 @@ class FilesRepository {
    *
    * @returns
    */
-  static GetChildrenFilesByParentFileId() {
+  static GetChildrenFilesByParentFileId(): IGetChildrenFilesByParentFileId {
     return AsyncRepositoryHOF(
       GET_DIRECTORY_CONTENT,
       GET_DIRECTORY_CONTENT_TYPE
     );
+  }
+
+  /**
+   *
+   * @returns
+   */
+  static SetFavoritesByFileIds(): ISetFavoritesByFileIds {
+    return MutationHOF(SET_FAVORITES, SET_FAVORITES_TYPE);
   }
 
   static GetDirectoryContent(param?: RepositoryParam) {
